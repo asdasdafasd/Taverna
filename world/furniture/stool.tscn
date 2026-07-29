@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Material" path="res://assets/materials/wood_mid.tres" id="1"]
+
+[sub_resource type="CylinderMesh" id="seat"]
+material = ExtResource("1")
+top_radius = 0.2
+bottom_radius = 0.18
+height = 0.05
+
+[sub_resource type="CylinderShape3D" id="shape"]
+radius = 0.2
+height = 0.5
+
+[node name="Stool" type="StaticBody3D"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="Seat" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475, 0)
+mesh = SubResource("seat")
+
+[node name="LegA" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.14, 0, 0, 0, 9, 0, 0, 0, 0.14, 0.11, 0.225, 0.09)
+mesh = SubResource("seat")
+
+[node name="LegB" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.14, 0, 0, 0, 9, 0, 0, 0, 0.14, -0.11, 0.225, 0.09)
+mesh = SubResource("seat")
+
+[node name="LegC" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.14, 0, 0, 0, 9, 0, 0, 0, 0.14, 0, 0.225, -0.13)
+mesh = SubResource("seat")
+
+[node name="Shape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("shape")

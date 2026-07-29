@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="RaceData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/scripts/race_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"elf"
+display_name = "Elf"
+description = "Rare, quiet guests with long memories and refined tastes."
+favorite_item_ids = Array[StringName]([&"hearth_stew"])
+tip_multiplier = 1.8
+patience_seconds = 150.0
+walk_speed = 2.3

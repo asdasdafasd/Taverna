@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Material" path="res://assets/materials/metal_iron.tres" id="1"]
+[ext_resource type="Material" path="res://assets/materials/lantern_glass.tres" id="2"]
+
+[sub_resource type="BoxMesh" id="frame"]
+material = ExtResource("1")
+size = Vector3(0.2, 0.26, 0.2)
+
+[sub_resource type="BoxMesh" id="glass"]
+material = ExtResource("2")
+size = Vector3(0.15, 0.18, 0.15)
+
+[sub_resource type="CylinderMesh" id="chain"]
+material = ExtResource("1")
+top_radius = 0.012
+bottom_radius = 0.012
+height = 0.45
+
+[node name="Lantern" type="Node3D"]
+
+[node name="Chain" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.36, 0)
+mesh = SubResource("chain")
+
+[node name="Frame" type="MeshInstance3D" parent="."]
+mesh = SubResource("frame")
+
+[node name="Glass" type="MeshInstance3D" parent="."]
+cast_shadow = 0
+mesh = SubResource("glass")
+
+[node name="Light" type="OmniLight3D" parent="."]
+light_color = Color(1, 0.74, 0.42, 1)
+light_energy = 1.3
+omni_range = 6.5
+omni_attenuation = 1.35
+shadow_enabled = true

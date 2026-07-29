@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="RecipeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/scripts/recipe_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"brew_amber_ale"
+display_name = "Amber Ale (house brew)"
+description = "Barley, patience, and the cellar's cool dark."
+ingredient_ids = Array[StringName]([&"barley_sack"])
+ingredient_counts = Array[int]([1])
+output_item_id = &"amber_ale"
+prep_seconds = 20.0
+sale_price = 6

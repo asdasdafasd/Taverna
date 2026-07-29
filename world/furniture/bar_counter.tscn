@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Material" path="res://assets/materials/wood_dark.tres" id="1"]
+[ext_resource type="Material" path="res://assets/materials/wood_mid.tres" id="2"]
+[ext_resource type="Material" path="res://assets/materials/bottle_glass.tres" id="3"]
+
+[sub_resource type="BoxMesh" id="counter_top"]
+material = ExtResource("1")
+size = Vector3(4.6, 0.08, 0.8)
+
+[sub_resource type="BoxMesh" id="counter_base"]
+material = ExtResource("2")
+size = Vector3(4.4, 1.02, 0.6)
+
+[sub_resource type="CylinderMesh" id="bottle"]
+material = ExtResource("3")
+top_radius = 0.03
+bottom_radius = 0.05
+height = 0.28
+
+[sub_resource type="BoxShape3D" id="counter_shape"]
+size = Vector3(4.6, 1.1, 0.8)
+
+[node name="BarCounter" type="StaticBody3D"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="Base" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51, 0)
+mesh = SubResource("counter_base")
+
+[node name="Top" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06, 0)
+mesh = SubResource("counter_top")
+
+[node name="BottleA" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, 1.24, -0.1)
+mesh = SubResource("bottle")
+
+[node name="BottleB" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35, 1.24, 0.12)
+mesh = SubResource("bottle")
+
+[node name="BottleC" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, 1.24, 0)
+mesh = SubResource("bottle")
+
+[node name="Shape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+shape = SubResource("counter_shape")

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="RaceData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/scripts/race_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"dwarf"
+display_name = "Dwarf"
+description = "Deep-voiced regulars who judge a tavern by its ale and its hearth."
+favorite_item_ids = Array[StringName]([&"amber_ale", &"hearth_stew"])
+tip_multiplier = 1.4
+patience_seconds = 60.0
+walk_speed = 1.7

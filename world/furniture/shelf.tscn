@@ -1,0 +1,80 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Material" path="res://assets/materials/wood_dark.tres" id="1"]
+[ext_resource type="Material" path="res://assets/materials/bottle_glass.tres" id="2"]
+[ext_resource type="Material" path="res://assets/materials/ceramic.tres" id="3"]
+
+[sub_resource type="BoxMesh" id="board"]
+material = ExtResource("1")
+size = Vector3(2.4, 0.05, 0.35)
+
+[sub_resource type="BoxMesh" id="side"]
+material = ExtResource("1")
+size = Vector3(0.06, 2.0, 0.35)
+
+[sub_resource type="CylinderMesh" id="bottle"]
+material = ExtResource("2")
+top_radius = 0.03
+bottom_radius = 0.05
+height = 0.28
+
+[sub_resource type="CylinderMesh" id="jug"]
+material = ExtResource("3")
+top_radius = 0.05
+bottom_radius = 0.09
+height = 0.22
+
+[sub_resource type="BoxShape3D" id="shelf_shape"]
+size = Vector3(2.4, 2.0, 0.35)
+
+[node name="Shelf" type="StaticBody3D"]
+collision_layer = 1
+collision_mask = 0
+
+[node name="SideLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.17, 1.0, 0)
+mesh = SubResource("side")
+
+[node name="SideRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.17, 1.0, 0)
+mesh = SubResource("side")
+
+[node name="BoardLow" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+mesh = SubResource("board")
+
+[node name="BoardMid" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+mesh = SubResource("board")
+
+[node name="BoardHigh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 0)
+mesh = SubResource("board")
+
+[node name="BottleA" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 1.47, 0)
+mesh = SubResource("bottle")
+
+[node name="BottleB" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 1.47, 0.05)
+mesh = SubResource("bottle")
+
+[node name="BottleC" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.47, -0.02)
+mesh = SubResource("bottle")
+
+[node name="JugA" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.84, 0)
+mesh = SubResource("jug")
+
+[node name="JugB" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.84, 0.04)
+mesh = SubResource("jug")
+
+[node name="BottleD" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 2.07, 0)
+mesh = SubResource("bottle")
+
+[node name="Shape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+shape = SubResource("shelf_shape")

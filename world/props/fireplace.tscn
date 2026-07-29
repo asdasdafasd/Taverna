@@ -1,0 +1,97 @@
+[gd_scene load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://world/props/fireplace.gd" id="1"]
+[ext_resource type="Material" path="res://assets/materials/stone_dark.tres" id="2"]
+[ext_resource type="Material" path="res://assets/materials/ember_material.tres" id="3"]
+[ext_resource type="Material" path="res://assets/materials/flame_material.tres" id="4"]
+[ext_resource type="Material" path="res://assets/materials/wood_dark.tres" id="5"]
+
+[sub_resource type="BoxMesh" id="surround"]
+material = ExtResource("2")
+size = Vector3(2.4, 2.2, 0.5)
+
+[sub_resource type="BoxMesh" id="hearth_floor"]
+material = ExtResource("2")
+size = Vector3(2.0, 0.12, 0.9)
+
+[sub_resource type="PlaneMesh" id="coals"]
+material = ExtResource("3")
+size = Vector2(1.1, 0.55)
+
+[sub_resource type="QuadMesh" id="flame"]
+material = ExtResource("4")
+size = Vector2(1.0, 1.1)
+
+[sub_resource type="CylinderMesh" id="log_mesh"]
+material = ExtResource("5")
+top_radius = 0.07
+bottom_radius = 0.07
+height = 0.7
+
+[sub_resource type="BoxShape3D" id="surround_shape"]
+size = Vector3(2.4, 2.2, 0.5)
+
+[sub_resource type="BoxShape3D" id="hearth_shape"]
+size = Vector3(2.0, 0.12, 0.9)
+
+[node name="Fireplace" type="StaticBody3D"]
+collision_layer = 5
+collision_mask = 0
+script = ExtResource("1")
+prompt_verb = "Stoke"
+display_name = "Hearth"
+
+[node name="Surround" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -0.1)
+mesh = SubResource("surround")
+
+[node name="FireboxLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.14, 0, 0, 0, 0.55, 0, 0, 0, 1.4, -0.62, 0.6, 0.12)
+mesh = SubResource("surround")
+
+[node name="FireboxRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.14, 0, 0, 0, 0.55, 0, 0, 0, 1.4, 0.62, 0.6, 0.12)
+mesh = SubResource("surround")
+
+[node name="Mantel" type="MeshInstance3D" parent="."]
+transform = Transform3D(1.1, 0, 0, 0, 0.06, 0, 0, 0, 1.5, 0, 1.62, 0.1)
+mesh = SubResource("surround")
+
+[node name="HearthFloor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0.25)
+mesh = SubResource("hearth_floor")
+
+[node name="Coals" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14, 0.2)
+mesh = SubResource("coals")
+
+[node name="LogLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.866025, 0.25, -0.433013, 0, 0.866025, 0.5, 0.5, -0.433013, 0.75, -0.15, 0.22, 0.2)
+mesh = SubResource("log_mesh")
+
+[node name="LogRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, -0.75, 0.15, 0.22, 0.2)
+mesh = SubResource("log_mesh")
+
+[node name="Flame" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.72, 0.2)
+cast_shadow = 0
+mesh = SubResource("flame")
+
+[node name="FireLight" type="OmniLight3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0.6)
+light_color = Color(1, 0.58, 0.25, 1)
+light_energy = 2.4
+omni_range = 9.0
+omni_attenuation = 1.3
+shadow_enabled = true
+
+[node name="SurroundShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, -0.1)
+shape = SubResource("surround_shape")
+
+[node name="HearthShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0.25)
+shape = SubResource("hearth_shape")

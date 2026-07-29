@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/scripts/item_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"root_vegetables"
+display_name = "Root Vegetables"
+description = "Carrots, turnips, and potatoes still dusted with cellar soil."
+category = 2
+base_value = 1
+weight = 0.8
+stackable = true
+max_stack = 16

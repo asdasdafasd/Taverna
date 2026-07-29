@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://player/player_controller.gd" id="1"]
+[ext_resource type="Script" path="res://interaction/interaction_ray.gd" id="2"]
+
+[sub_resource type="CapsuleShape3D" id="capsule"]
+resource_local_to_scene = true
+radius = 0.32
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="body_material"]
+albedo_color = Color(0.32, 0.24, 0.18, 1)
+roughness = 0.85
+
+[sub_resource type="CapsuleMesh" id="body_mesh"]
+resource_local_to_scene = true
+material = SubResource("body_material")
+radius = 0.3
+height = 1.8
+
+[node name="Player" type="CharacterBody3D"]
+collision_layer = 2
+collision_mask = 9
+script = ExtResource("1")
+
+[node name="BodyShape" type="CollisionShape3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("capsule")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+visible = false
+mesh = SubResource("body_mesh")
+
+[node name="CeilingCheck" type="ShapeCast3D" parent="."]
+unique_name_in_owner = true
+
+[node name="Head" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.64, 0)
+
+[node name="SpringArm" type="SpringArm3D" parent="Head"]
+unique_name_in_owner = true
+collision_mask = 1
+spring_length = 0.0
+margin = 0.3
+
+[node name="CameraMount" type="Node3D" parent="Head/SpringArm"]
+
+[node name="Camera" type="Camera3D" parent="Head/SpringArm/CameraMount"]
+unique_name_in_owner = true
+current = true
+near = 0.05
+
+[node name="InteractionRay" type="RayCast3D" parent="Head/SpringArm/CameraMount/Camera"]
+unique_name_in_owner = true
+script = ExtResource("2")
+
+[node name="CarryAnchor" type="Node3D" parent="Head"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, -0.35, -0.95)

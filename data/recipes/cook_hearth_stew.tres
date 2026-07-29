@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="RecipeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/scripts/recipe_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"cook_hearth_stew"
+display_name = "Hearth Stew"
+description = "Simmered low and slow beside the hearth."
+ingredient_ids = Array[StringName]([&"pork_shank", &"root_vegetables"])
+ingredient_counts = Array[int]([1, 2])
+output_item_id = &"hearth_stew"
+prep_seconds = 35.0
+sale_price = 12

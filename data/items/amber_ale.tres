@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/scripts/item_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"amber_ale"
+display_name = "Amber Ale"
+description = "The house pour: malty, honest, and never watered down."
+category = 0
+base_value = 4
+weight = 0.6
+stackable = false
+max_stack = 1

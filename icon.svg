@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#3b2a1e"/>
+      <stop offset="100%" stop-color="#17100b"/>
+    </radialGradient>
+    <linearGradient id="mug" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c98f4a"/>
+      <stop offset="100%" stop-color="#8a5a28"/>
+    </linearGradient>
+    <linearGradient id="foam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fdf3d8"/>
+      <stop offset="100%" stop-color="#eeD9a8"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="20" fill="url(#bg)"/>
+  <rect x="8" y="8" width="112" height="112" rx="14" fill="none" stroke="#f0b35e" stroke-opacity="0.25" stroke-width="3"/>
+  <path d="M84 56h10a10 10 0 0 1 10 10v10a10 10 0 0 1-10 10h-10z" fill="none" stroke="url(#mug)" stroke-width="7"/>
+  <path d="M40 46h44v50a8 8 0 0 1-8 8H48a8 8 0 0 1-8-8z" fill="url(#mug)"/>
+  <path d="M40 46h44v50a8 8 0 0 1-8 8H48a8 8 0 0 1-8-8z" fill="none" stroke="#5d3a17" stroke-width="3"/>
+  <rect x="46" y="54" width="6" height="42" rx="3" fill="#e9b871" opacity="0.55"/>
+  <path d="M36 40c0-7 6-11 12-9 2-6 10-8 15-4 4-5 13-4 16 2 6-1 11 4 10 10 0 5-4 8-9 8H44c-5 0-8-3-8-7z" fill="url(#foam)"/>
+  <circle cx="42" cy="34" r="6" fill="url(#foam)"/>
+  <circle cx="86" cy="38" r="5" fill="url(#foam)"/>
+</svg>
