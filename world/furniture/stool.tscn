@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Material" path="res://assets/materials/wood_mid.tres" id="1"]
+[ext_resource type="Script" path="res://npc/seat.gd" id="2"]
 
 [sub_resource type="CylinderMesh" id="seat"]
 material = ExtResource("1")
@@ -16,7 +17,10 @@ height = 0.5
 collision_layer = 1
 collision_mask = 0
 
-[node name="Seat" type="MeshInstance3D" parent="."]
+[node name="Seat" type="Node3D" parent="."]
+script = ExtResource("2")
+
+[node name="SeatMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475, 0)
 mesh = SubResource("seat")
 

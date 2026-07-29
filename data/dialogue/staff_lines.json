@@ -1,0 +1,22 @@
+{
+	"serve_drink": {
+		"default": ["Here's your drink. Mind the foam.", "One drink, poured with love and mild resentment."]
+	},
+	"serve_food": {
+		"default": ["Hot plate! Coming through!", "Kitchen's pride, right here."]
+	},
+	"breakup": {
+		"default": ["OI! Take it outside!", "That's enough! Both of you — OUT.", "House rule number one: no teeth on the floor."]
+	},
+	"perform": {
+		"default": [
+			"♪ Oh the road was long and my boots were thin... ♪",
+			"♪ She poured the ale with a silver hand... ♪",
+			"♪ Down in the cellar where the barrels sleep... ♪",
+			"♪ Two coins for the ferryman, one for the keep... ♪"
+		]
+	},
+	"work_idle": {
+		"default": ["Another quiet minute. Suspicious.", "Glasses don't polish themselves. Sadly."]
+	}
+}

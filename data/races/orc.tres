@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="RaceData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/scripts/race_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"orc"
+display_name = "Orc"
+description = "Loud, thirsty, and proud. An orc's toast can rattle the rafters — and an orc's grudge can clear the room."
+favorite_item_ids = Array[StringName]([&"blackroot_mead"])
+tip_multiplier = 0.8
+patience_seconds = 45.0
+walk_speed = 2.2
+aggression = 0.9
+sociability = 0.45
+thirst_rate = 1.4
+hunger_rate = 1.2
+unique_trait = 1
+preferred_drink_ids = Array[StringName]([&"blackroot_mead", &"amber_ale"])
+preferred_food_ids = Array[StringName]([&"hearth_stew"])
+ally_race_ids = Array[StringName]([&"goblin"])
+enemy_race_ids = Array[StringName]([&"elf", &"dwarf"])
+body_color = Color(0.36, 0.5, 0.3, 1)
+given_names = Array[String](["Grukk", "Marga", "Thok", "Ursza", "Drog", "Hesha"])
+height_scale = 1.25

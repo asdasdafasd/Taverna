@@ -1,0 +1,98 @@
+{
+	"greeting": {
+		"default": ["Evenin'.", "Room for one more?"],
+		"human": ["Evening, keeper! What's the word?", "Ah, warmth at last."],
+		"orc": ["WHERE'S THE MEAD?", "Grukk's cousin said this place will do."],
+		"elf": ["A quiet corner, if any remain.", "The night air follows me in."],
+		"dwarf": ["I smell ale. Good start.", "By me beard, it's cold out there."],
+		"halfling": ["Ooh, something smells wonderful!", "Is it supper time? It's supper time."],
+		"goblin": ["Heh. Nice place. Real... valuable.", "Nobody look at me. I'm buyin', I'm buyin'!"],
+		"undead": ["...", "The cold does not bother me. I brought it."]
+	},
+	"ordering": {
+		"default": ["I'll take the usual.", "Something to drink, please."],
+		"human": ["A mug of your best, keeper.", "Ale, and whatever's in the pot."],
+		"orc": ["MEAD. BIG ONE.", "Bring drink before I get thirsty. Too late. HURRY."],
+		"elf": ["The nettle wine. Chilled, if this establishment can manage.", "Wine. The green one."],
+		"dwarf": ["Ale! And keep the next one ready.", "One ale now, one ale soon."],
+		"halfling": ["Cakes! And maybe stew. And maybe both.", "One of everything that's food, please."],
+		"goblin": ["Mead! The cheap kind. Wait, what's the EXPENSIVE kind cost?", "Drink now, pay... later-ish."],
+		"undead": ["Wine. It reminds me of... something.", "Pour. I shall remember drinking fondly."]
+	},
+	"waiting": {
+		"default": ["Any time now...", "Did they forget me?"],
+		"human": ["Service is slower than the mill queue.", "Hello? Still here."],
+		"orc": ["ORC IS WAITING. ORC HATES WAITING.", "I count to ten. I know six numbers."],
+		"elf": ["I have watched forests grow faster.", "Patience is a virtue. Mine is thinning."],
+		"dwarf": ["Me tankard's still EMPTY.", "A dwarf could dig a well faster than this."],
+		"halfling": ["My tummy is making the angry noise.", "Second breakfast was HOURS ago."],
+		"goblin": ["Tick tock, tick tock, gimme gimme.", "Slow service means discount, yes? YES?"],
+		"undead": ["I have waited longer. In the ground.", "Time means little. Yet this is absurd."]
+	},
+	"served": {
+		"default": ["Ah, finally.", "That's the stuff."],
+		"human": ["Cheers, friend!", "Now that's proper service."],
+		"orc": ["FINALLY. GOOD.", "Mug small. Orc forgives. This time."],
+		"elf": ["Acceptable.", "It will suffice."],
+		"dwarf": ["Aye, THERE it is!", "Bless yer pouring arm."],
+		"halfling": ["Oh, LOVELY!", "Look at it. Just look at it!"],
+		"goblin": ["Mine mine mine.", "Heh heh. Nobody else touches it."],
+		"undead": ["...thank you.", "A small warmth in a long night."]
+	},
+	"satisfied": {
+		"default": ["Good stuff, keeper.", "Worth the coin."],
+		"human": ["My compliments to the house!", "I'll be telling folk about this place."],
+		"orc": ["GOOD MEAD. STRONG KEEPER.", "Orc respects this tavern now."],
+		"elf": ["Better than expected. Notably so.", "Perhaps I shall return within the decade."],
+		"dwarf": ["Finest pour this side o' the mountain!", "Me beard approves."],
+		"halfling": ["That was perfect. What's for dessert?", "Five stars. Would eat again. WILL eat again."],
+		"goblin": ["Not bad. Not stolen, even.", "Good stuff! Shame about the price. Heh."],
+		"undead": ["I feel almost alive.", "This body remembers joy. Curious."]
+	},
+	"angry": {
+		"default": ["This is an outrage.", "I've had better service in a ditch!"],
+		"human": ["I'm never coming back! ...probably.", "The inn down the road pours faster!"],
+		"orc": ["ORC ANGRY NOW. TAVERN'S FAULT.", "GRRRAAAGH!"],
+		"elf": ["I shall not dignify this with anger. I am leaving.", "Centuries of patience, wasted here."],
+		"dwarf": ["Ye call this hospitality?!", "Me grandfather's ghost pours faster!"],
+		"halfling": ["I am VERY cross and also STILL hungry!", "This is worse than the year without jam!"],
+		"goblin": ["Bad service! I take compensation!", "You lose customer! And maybe spoons!"],
+		"undead": ["Even death was more welcoming.", "My grave had better service."]
+	},
+	"conflict": {
+		"default": ["You looking at me?", "Say that again. Slowly."],
+		"human": ["I don't want trouble... much.", "Outside. Now."],
+		"orc": ["YOUR FACE OFFENDS MY MEAD.", "ORC SMASH POINTY-EAR... uh, EVERYONE."],
+		"elf": ["Your presence curdles the wine, brute.", "I have dueled better-smelling trolls."],
+		"dwarf": ["Watch yer elbows, ya green oaf!", "That's MY table, ya wee menace!"],
+		"halfling": ["I— I know a guy! A big guy!", "You leave my supper out of this!"],
+		"goblin": ["Heh, wanna go? Wanna GO?", "I bite ankles, pretty-boots!"],
+		"undead": ["Do not test what cannot die.", "I have buried better men than you. Personally."]
+	},
+	"leaving": {
+		"default": ["Right, off I go.", "Keep the hearth warm."],
+		"human": ["Home before the wife notices. Cheers!", "Safe pours, keeper."],
+		"orc": ["ORC GO NOW. TAVERN SURVIVES. GOOD JOB.", "Next time, bigger mugs."],
+		"elf": ["The night calls me elsewhere.", "Farewell. Change nothing. Or everything."],
+		"dwarf": ["Back to the forge. Worse luck.", "Save me stool. It knows me now."],
+		"halfling": ["Time to walk it off. Slowly. Toward more food.", "Same time tomorrow!"],
+		"goblin": ["Leaving! Check your pockets later! I mean— bye!", "Nice doing business, heh heh."],
+		"undead": ["The soil calls me home.", "Until the next moonless night."]
+	},
+	"toast": {
+		"orc": ["TO BLOOD, MEAD, AND THIS FINE SHED! WAAAGH!", "RAISE MUGS OR RAISE FISTS! WAAAGH!"]
+	},
+	"gossip": {
+		"human": ["Did you hear about the miller's cow? Whole thing. Gone.", "They say the baron dyes his beard. I believe it.", "A dragon was seen over the pass. Or a large goose."]
+	},
+	"second": {
+		"dwarf": ["Another! The first one was practice.", "Same again! Me throat's just warmin' up."],
+		"halfling": ["And now: second lunch!", "The stew was a warm-up. Bring the cakes!"]
+	},
+	"skim": {
+		"goblin": ["Whoops, coins slipped. That's all of them, honest.", "Exact change! Do not count it."]
+	},
+	"chill": {
+		"default": ["Brr... did it just get cold in here?", "Why do I smell wet soil?"]
+	}
+}

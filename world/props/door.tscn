@@ -6,10 +6,10 @@
 
 [sub_resource type="BoxMesh" id="panel"]
 material = ExtResource("2")
-size = Vector3(1.05, 2.0, 0.08)
+size = Vector3(1.35, 2.0, 0.08)
 
 [sub_resource type="BoxShape3D" id="panel_shape"]
-size = Vector3(1.05, 2.0, 0.08)
+size = Vector3(1.35, 2.0, 0.08)
 
 [node name="Door" type="StaticBody3D"]
 collision_layer = 5
@@ -19,14 +19,14 @@ prompt_verb = "Open"
 display_name = "Door"
 
 [node name="Panel" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.525, 1.0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.675, 1.0, 0)
 mesh = SubResource("panel")
 
 [node name="Handle" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.16, 0.92, 1.0, 0.07)
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.16, 1.22, 1.0, 0.07)
 mesh = SubResource("panel")
 material_override = ExtResource("3")
 
 [node name="PanelShape" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.525, 1.0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.675, 1.0, 0)
 shape = SubResource("panel_shape")

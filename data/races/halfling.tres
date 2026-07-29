@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="RaceData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/scripts/race_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"halfling"
+display_name = "Halfling"
+description = "Cheerful little gourmands. Where a halfling eats, a second lunch is sure to follow."
+favorite_item_ids = Array[StringName]([&"honey_cakes"])
+tip_multiplier = 1.2
+patience_seconds = 110.0
+walk_speed = 1.8
+aggression = 0.05
+sociability = 0.9
+thirst_rate = 0.9
+hunger_rate = 1.7
+unique_trait = 4
+preferred_drink_ids = Array[StringName]([&"amber_ale"])
+preferred_food_ids = Array[StringName]([&"honey_cakes", &"hearth_stew"])
+ally_race_ids = Array[StringName]([&"human", &"dwarf"])
+enemy_race_ids = Array[StringName]([&"undead"])
+body_color = Color(0.8, 0.62, 0.5, 1)
+given_names = Array[String](["Pippa", "Milo", "Rosie", "Tobbin", "Nella", "Wick"])
+height_scale = 0.65

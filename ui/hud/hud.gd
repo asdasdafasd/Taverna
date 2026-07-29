@@ -29,6 +29,7 @@ func _ready() -> void:
 	EventBus.interaction_performed.connect(_on_interaction_performed)
 	EventBus.carry_state_changed.connect(_on_carry_state_changed)
 	EventBus.notification_posted.connect(_on_notification_posted)
+	EventBus.patron_paid.connect(_on_patron_paid)
 	TimeManager.minute_passed.connect(_on_minute_passed)
 	GameManager.funds_changed.connect(_on_funds_changed)
 	GameManager.state_changed.connect(_on_game_state_changed)
@@ -72,6 +73,12 @@ func _on_notification_posted(text: String) -> void:
 
 func _on_minute_passed(_day: int, _hour: int, _minute: int) -> void:
 	_clock_label.text = TimeManager.clock_text()
+
+
+func _on_patron_paid(patron: PatronNPC, copper_amount: int) -> void:
+	_on_notification_posted(
+		"%s paid %s." % [patron.npc_name, StringUtils.format_coins(copper_amount)]
+	)
 
 
 func _on_funds_changed(copper_total: int) -> void:

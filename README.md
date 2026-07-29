@@ -4,10 +4,10 @@ A cozy 3D tavern management game built with **Godot 4.4** (Forward+).
 You are the keeper of a roadside tavern: pour ale, feed travelers, and keep
 the hearth burning.
 
-This repository currently contains **Phase 1** — the playable foundation:
-a fully controllable first/third-person player, a believable tavern interior,
-the interaction framework, and the core global services every later phase
-builds on.
+This repository currently contains **Phases 1–2**: the playable foundation
+(player controller, tavern interior, interaction framework, core services)
+plus living NPCs — seven fantasy races of patrons who enter, claim seats,
+order, gossip, brawl, pay, and leave, served by a scaffolded staff crew.
 
 ## Getting started
 
@@ -42,6 +42,11 @@ builds on.
 - Open the **entrance door** and step onto the porch, or take the
   **cellar door** down the stairs to the barrel cellar.
 - Pick up a **tankard** from the bar (`E`), carry it around, and toss it (`Q`).
+- Watch **patrons** arrive through the front door: they claim stools, order
+  from the bartender and cook, chat, and settle their tab on the way out.
+- Wait for an **orc and an elf** to sit near each other at night — the
+  bouncer earns his keep.
+- Listen for the **bard's** verses; they lift the whole room's mood.
 
 ## Project layout
 
@@ -56,8 +61,11 @@ assets/materials/       Shared PBR + shader materials (.tres)
 data/
   scripts/              Typed Resource models (items, recipes, races, saves)
   items/ recipes/ races/  Data instances loaded by GameManager at boot
+  dialogue/             NPC line content (JSON, per moment and race)
 game/main/              Boot scene: main flow, pause, quick save/load
 interaction/            Interactable contract, ray, highlight, carryable props
+npc/                    NPC life: base class, patrons, seats, dialogue, spawner
+  staff/                Bartender, cook, bouncer, bard roles
 player/                 Player controller scene + script
 shaders/                Procedural shaders (flame, embers, dust, outline)
 ui/hud/                 Crosshair, prompts, clock, notifications, pause
@@ -86,6 +94,23 @@ world/
 - **Saving.** Nodes join the `save_participants` group and implement
   `write_save_data` / `read_save_data`; `SaveManager` serializes a versioned
   `SaveData` resource to `user://saves/*.json`.
+- **NPC life (Phase 2).** `NPCBase` provides navmesh locomotion, the
+  procedural body, speech bubbles, and a jittered timer-driven think loop —
+  no per-frame decision code. `PatronNPC` runs the guest lifecycle
+  (enter → claim seat → order → consume → socialize → pay → leave) with a
+  strict priority order: danger, needs, service, social, leaving. Seats are
+  hard-claimed through `Seat.try_claim` before an NPC walks over, so
+  double-seating cannot happen. Seven `RaceData` resources drive patience,
+  aggression, tips, menus, ally/enemy relations, body tint/size, and one
+  unique trait each (orc war toast, dwarf second round, goblin coin skim,
+  elf seat aloofness, halfling second lunch, human gossip, undead grave
+  chill). Dialogue lines live in `data/dialogue/*.json` keyed by moment and
+  race. Staff (`StaffNPC` roles: bartender, cook, bouncer, bard) prioritize
+  work over idling — servers fulfill `PatronOrder`s from the EventBus queue,
+  the bouncer breaks up brawls, the bard buffs room mood. `NPCSpawner`
+  follows an hourly busyness curve and shifts the race mix across day,
+  evening, and night, under a configurable population cap. Doors open
+  automatically for NPC bodies and close behind them.
 - **The tavern shell is generated** by `TavernArchitecture` from named layout
   constants (rooms, openings, stairs), so the whole building can be retuned
   from one file while keeping visuals and collision in lockstep. The
@@ -100,6 +125,7 @@ world/
 | 2 | `player` | The player body |
 | 3 | `interactable` | Everything the interaction ray can focus |
 | 4 | `carryable` | Rigid-body props the player can collide with and carry |
+| 5 | `npc` | Patron and staff bodies (door sensors watch this layer) |
 
 ## License
 

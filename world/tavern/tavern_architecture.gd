@@ -26,13 +26,13 @@ const CELLAR_FLOOR_Y: float = -3.0
 
 # --- Openings ---------------------------------------------------------------
 const ENTRANCE_X: float = 0.0
-const ENTRANCE_WIDTH: float = 1.1
+const ENTRANCE_WIDTH: float = 1.4
 const ENTRANCE_HEIGHT: float = 2.1
 const KITCHEN_ARCH_X: float = 3.0
 const KITCHEN_ARCH_WIDTH: float = 1.4
 const KITCHEN_ARCH_HEIGHT: float = 2.4
 const CELLAR_DOOR_X: float = -5.5
-const CELLAR_DOOR_WIDTH: float = 1.1
+const CELLAR_DOOR_WIDTH: float = 1.4
 const CELLAR_DOOR_HEIGHT: float = 2.1
 const WINDOW_CENTERS_X: Array[float] = [-4.0, 4.0]
 const WINDOW_WIDTH: float = 1.6

@@ -4,11 +4,11 @@ extends Node3D
 ## lighting, and atmosphere, and bakes the navigation mesh at runtime so the
 ## floor layout is ready for patron pathfinding in later phases.
 
-const NAV_AGENT_RADIUS: float = 0.4
+const NAV_AGENT_RADIUS: float = 0.3
 const NAV_AGENT_HEIGHT: float = 1.8
 const NAV_MAX_CLIMB: float = 0.3
 const NAV_MAX_SLOPE_DEGREES: float = 50.0
-const NAV_CELL_SIZE: float = 0.25
+const NAV_CELL_SIZE: float = 0.2
 
 ## Nodes in this group (plus their subtrees) feed the navmesh bake.
 const NAV_SOURCE_GROUP: StringName = &"navigation_source"
@@ -17,7 +17,12 @@ const NAV_SOURCE_GROUP: StringName = &"navigation_source"
 
 
 func _ready() -> void:
+	_navigation_region.bake_finished.connect(_on_navigation_baked)
 	_configure_navigation.call_deferred()
+
+
+func _on_navigation_baked() -> void:
+	EventBus.navigation_ready.emit()
 
 
 func _configure_navigation() -> void:

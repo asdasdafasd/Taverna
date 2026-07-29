@@ -24,7 +24,7 @@ height = 0.06
 radius = 0.55
 height = 0.81
 
-[node name="RoundTable" type="StaticBody3D"]
+[node name="RoundTable" type="StaticBody3D" groups=["seat_focus"]]
 collision_layer = 1
 collision_mask = 0
 

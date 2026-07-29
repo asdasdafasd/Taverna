@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="RaceData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/scripts/race_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"goblin"
+display_name = "Goblin"
+description = "Twitchy night visitors with fast fingers. Count the till after they leave."
+favorite_item_ids = Array[StringName]([&"blackroot_mead"])
+tip_multiplier = 0.5
+patience_seconds = 35.0
+walk_speed = 2.4
+aggression = 0.7
+sociability = 0.5
+thirst_rate = 1.2
+hunger_rate = 1.3
+unique_trait = 5
+preferred_drink_ids = Array[StringName]([&"blackroot_mead"])
+preferred_food_ids = Array[StringName]([&"hearth_stew"])
+ally_race_ids = Array[StringName]([&"orc"])
+enemy_race_ids = Array[StringName]([&"dwarf", &"elf"])
+body_color = Color(0.45, 0.6, 0.25, 1)
+given_names = Array[String](["Skiv", "Nubbs", "Retch", "Zizzi", "Grubble", "Pox"])
+height_scale = 0.7

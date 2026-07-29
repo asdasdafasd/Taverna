@@ -27,6 +27,36 @@ signal game_loaded(path: String)
 ## Emitted when any system wants to show a short on-screen toast message.
 signal notification_posted(text: String)
 
+## Emitted once the tavern's navigation mesh has finished baking.
+signal navigation_ready
+
+## Emitted when a patron steps into the tavern proper.
+signal patron_entered(patron: PatronNPC)
+
+## Emitted after a patron claims and reaches a seat.
+signal patron_seated(patron: PatronNPC, seat: Seat)
+
+## Emitted when a patron despawns at the exit.
+signal patron_left(patron: PatronNPC)
+
+## Emitted when a patron places an order for staff to fulfill.
+signal order_placed(order: PatronOrder)
+
+## Emitted when staff hands the finished order to the patron.
+signal order_delivered(order: PatronOrder)
+
+## Emitted when a patron settles their bill (tips included).
+signal patron_paid(patron: PatronNPC, copper_amount: int)
+
+## Emitted when two patrons start brawling.
+signal brawl_started(initiator: PatronNPC, target: PatronNPC)
+
+## Emitted when a brawl finishes or is broken up.
+signal brawl_ended(initiator: PatronNPC, target: PatronNPC)
+
+## Emitted whenever an NPC says a line out loud (speech bubble shown).
+signal npc_spoke(npc: NPCBase, text: String)
+
 
 ## Convenience helper so callers do not need to reference the signal directly.
 func post_notification(text: String) -> void:
