@@ -111,11 +111,12 @@ func _delivery_point() -> Vector3:
 
 
 func _prep_time_for(item_id: StringName) -> float:
+	var speed_bonus: float = 1.0 + UpgradeManager.effect_value(&"prep_speed_bonus")
 	for recipe: RecipeData in GameManager.get_all_recipes():
 		if recipe.output_item_id == item_id:
 			# Real prep time is scaled down so service stays snappy in play.
-			return clampf(recipe.prep_seconds * 0.2, 2.0, 12.0)
-	return DEFAULT_PREP_SECONDS
+			return clampf(recipe.prep_seconds * 0.2, 2.0, 12.0) / speed_bonus
+	return DEFAULT_PREP_SECONDS / speed_bonus
 
 
 func _serve_moment() -> String:

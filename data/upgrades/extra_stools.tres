@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/scripts/upgrade_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"extra_stools"
+display_name = "Extra Stools"
+description = "Squeeze four more seats into the hall. Raises the patron cap by 3."
+branch = 0
+cost_copper = 120
+requires_id = &""
+effects = Dictionary[StringName, float]({&"max_patrons_bonus": 3.0})

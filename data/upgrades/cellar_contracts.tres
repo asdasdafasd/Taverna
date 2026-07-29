@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/scripts/upgrade_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"cellar_contracts"
+display_name = "Cellar Contracts"
+description = "Standing orders with the valley farms cut all restocking costs by 25%."
+branch = 3
+cost_copper = 250
+requires_id = &""
+effects = Dictionary[StringName, float]({&"restock_discount": 0.25})

@@ -7,7 +7,7 @@ extends Resource
 ## [code]read_save_data(data)[/code].
 
 ## Bump when the on-disk format changes incompatibly.
-const CURRENT_VERSION: int = 1
+const CURRENT_VERSION: int = 2
 
 var version: int = CURRENT_VERSION
 
@@ -29,6 +29,27 @@ var gold_copper: int = 0
 var player_position: Vector3 = Vector3.ZERO
 var player_yaw: float = 0.0
 
+## Room tension (0-100).
+var tension: float = 10.0
+
+## Race id -> reputation value (0-100).
+var reputation: Dictionary[String, float] = {}
+
+## Ids of purchased upgrades.
+var owned_upgrades: Array[String] = []
+
+## Item id -> stock units.
+var stock: Dictionary[String, int] = {}
+
+## Item id -> menu price in copper.
+var menu_prices: Dictionary[String, int] = {}
+
+## Day number (as string key) -> [income, expenses] pair in copper.
+var ledger_days: Dictionary[String, Array] = {}
+
+## Accumulated unrepaired furniture damage in copper.
+var furniture_damage_copper: int = 0
+
 
 func to_dict() -> Dictionary:
 	return {
@@ -41,6 +62,13 @@ func to_dict() -> Dictionary:
 		"gold_copper": gold_copper,
 		"player_position": [player_position.x, player_position.y, player_position.z],
 		"player_yaw": player_yaw,
+		"tension": tension,
+		"reputation": reputation,
+		"owned_upgrades": owned_upgrades,
+		"stock": stock,
+		"menu_prices": menu_prices,
+		"ledger_days": ledger_days,
+		"furniture_damage_copper": furniture_damage_copper,
 	}
 
 
@@ -65,4 +93,27 @@ func from_dict(source: Dictionary) -> bool:
 			float(position_values[2])
 		)
 	player_yaw = float(source.get("player_yaw", 0.0))
+	tension = clampf(float(source.get("tension", 10.0)), 0.0, 100.0)
+	reputation.clear()
+	var reputation_source: Dictionary = source.get("reputation", {})
+	for race_key: Variant in reputation_source:
+		reputation[str(race_key)] = float(reputation_source[race_key])
+	owned_upgrades.clear()
+	for upgrade_key: Variant in source.get("owned_upgrades", []):
+		owned_upgrades.append(str(upgrade_key))
+	stock.clear()
+	var stock_source: Dictionary = source.get("stock", {})
+	for item_key: Variant in stock_source:
+		stock[str(item_key)] = int(stock_source[item_key])
+	menu_prices.clear()
+	var price_source: Dictionary = source.get("menu_prices", {})
+	for item_key: Variant in price_source:
+		menu_prices[str(item_key)] = int(price_source[item_key])
+	ledger_days.clear()
+	var ledger_source: Dictionary = source.get("ledger_days", {})
+	for day_key: Variant in ledger_source:
+		var pair: Variant = ledger_source[day_key]
+		if pair is Array and (pair as Array).size() == 2:
+			ledger_days[str(day_key)] = pair
+	furniture_damage_copper = maxi(0, int(source.get("furniture_damage_copper", 0)))
 	return true

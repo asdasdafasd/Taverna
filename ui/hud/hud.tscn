@@ -85,6 +85,13 @@ theme_override_colors/font_color = Color(0.92, 0.78, 0.42, 1)
 theme_override_font_sizes/font_size = 16
 text = "0c"
 
+[node name="TensionBar" type="ProgressBar" parent="Root/TopLeftPanel/Rows"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(0, 10)
+max_value = 100.0
+show_percentage = false
+
 [node name="NotificationLabel" type="Label" parent="Root"]
 unique_name_in_owner = true
 layout_mode = 1
@@ -152,6 +159,7 @@ theme_override_colors/font_color = Color(0.8, 0.74, 0.64, 1)
 theme_override_font_sizes/font_size = 18
 text = "Esc — resume    F5 — quick save    F8 — quick load
 
-WASD move · Space jump · Shift sprint · Ctrl crouch · V camera · E interact · Q drop"
+WASD move · Space jump · Shift sprint · Ctrl crouch · V camera · E interact · Q drop
+Tab ledger · F break up fight · G round on the house"
 horizontal_alignment = 1
 vertical_alignment = 1

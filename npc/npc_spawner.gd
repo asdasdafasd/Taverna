@@ -111,7 +111,7 @@ func _current_busyness() -> float:
 
 
 func _try_spawn_patron() -> void:
-	if _patrons_alive >= max_patrons:
+	if _patrons_alive >= _effective_max_patrons():
 		return
 	if _current_busyness() <= 0.0:
 		return
@@ -127,23 +127,34 @@ func _try_spawn_patron() -> void:
 	_patrons_alive += 1
 
 
+## Population cap including capacity upgrades.
+func _effective_max_patrons() -> int:
+	return max_patrons + int(UpgradeManager.effect_value(&"max_patrons_bonus"))
+
+
 func _on_patron_left(_patron: PatronNPC) -> void:
 	_patrons_alive = maxi(0, _patrons_alive - 1)
 
 
 func _pick_race() -> RaceData:
 	var weights: Dictionary[StringName, float] = _weights_for_hour(TimeManager.hour)
+	# Reputation scales each race's willingness to visit.
+	var scaled: Dictionary[StringName, float] = {}
 	var total: float = 0.0
-	for weight: float in weights.values():
+	for race_id: StringName in weights:
+		var weight: float = (
+			weights[race_id] * ReputationManager.spawn_weight_multiplier(race_id)
+		)
+		scaled[race_id] = weight
 		total += weight
 	if total <= 0.0:
 		return null
 	var roll: float = randf() * total
-	for race_id: StringName in weights:
-		roll -= weights[race_id]
+	for race_id: StringName in scaled:
+		roll -= scaled[race_id]
 		if roll <= 0.0:
 			return GameManager.get_race(race_id)
-	return GameManager.get_race(weights.keys().back())
+	return GameManager.get_race(scaled.keys().back())
 
 
 func _weights_for_hour(hour: int) -> Dictionary[StringName, float]:

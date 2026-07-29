@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://player/player_controller.gd" id="1"]
 [ext_resource type="Script" path="res://interaction/interaction_ray.gd" id="2"]
+[ext_resource type="Script" path="res://player/player_intervention.gd" id="3"]
 
 [sub_resource type="CapsuleShape3D" id="capsule"]
 resource_local_to_scene = true
@@ -61,3 +62,6 @@ script = ExtResource("2")
 [node name="CarryAnchor" type="Node3D" parent="Head"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, -0.35, -0.95)
+
+[node name="Intervention" type="Node" parent="."]
+script = ExtResource("3")

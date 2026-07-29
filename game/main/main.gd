@@ -53,5 +53,8 @@ func _maybe_recapture_mouse(event: InputEvent) -> void:
 	var click: InputEventMouseButton = event as InputEventMouseButton
 	if click == null or not click.pressed:
 		return
-	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED and not GameManager.is_paused():
+	if (
+		Input.mouse_mode != Input.MOUSE_MODE_CAPTURED
+		and GameManager.state == GameManager.State.PLAYING
+	):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED

@@ -21,7 +21,7 @@ var item_id: StringName = &""
 var patron: PatronNPC = null
 var status: Status = Status.PLACED
 
-## Copper price charged on delivery (base value of the item).
+## Copper price charged on delivery (menu price at the time of ordering).
 var price_copper: int = 0
 
 
@@ -29,9 +29,7 @@ func _init(order_kind: Kind, ordered_item_id: StringName, ordering_patron: Patro
 	kind = order_kind
 	item_id = ordered_item_id
 	patron = ordering_patron
-	var item: ItemData = GameManager.get_item(item_id)
-	if item != null:
-		price_copper = item.base_value
+	price_copper = InventoryManager.price_of(item_id)
 
 
 func is_active() -> bool:

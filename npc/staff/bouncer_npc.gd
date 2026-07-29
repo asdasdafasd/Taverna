@@ -14,6 +14,7 @@ var _target_b: PatronNPC = null
 func _init() -> void:
 	role_title = "Bouncer"
 	uniform_color = Color(0.2, 0.2, 0.24)
+	wage_copper = 16
 
 
 func _ready() -> void:

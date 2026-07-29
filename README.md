@@ -4,10 +4,13 @@ A cozy 3D tavern management game built with **Godot 4.4** (Forward+).
 You are the keeper of a roadside tavern: pour ale, feed travelers, and keep
 the hearth burning.
 
-This repository currently contains **Phases 1–2**: the playable foundation
-(player controller, tavern interior, interaction framework, core services)
-plus living NPCs — seven fantasy races of patrons who enter, claim seats,
-order, gossip, brawl, pay, and leave, served by a scaffolded staff crew.
+This repository currently contains **Phases 1–3**: the playable foundation
+(player controller, tavern interior, interaction framework, core services),
+living NPCs (seven fantasy races of patrons who enter, claim seats, order,
+gossip, brawl, pay, and leave, served by a staff crew), and the management
+layer — economy and ledger, room tension, per-race reputation, dangerous
+brawls with interventions, menu pricing and stock, and a working upgrade
+tree, all persisted through saves.
 
 ## Getting started
 
@@ -30,6 +33,9 @@ order, gossip, brawl, pay, and leave, served by a scaffolded staff crew.
 | `V` | Toggle first-person / third-person camera |
 | `E` | Interact with the focused object / drop carried item |
 | `Q` | Drop carried item |
+| `Tab` | Open / close the Keeper's Ledger (management screen) |
+| `F` | Break up the nearest brawl by force (raises tension a little) |
+| `G` | Stand a round on the house (costs coin, may end a fight peacefully) |
 | `Esc` | Pause / resume |
 | `F5` | Quick save |
 | `F8` | Quick load |
@@ -47,6 +53,13 @@ order, gossip, brawl, pay, and leave, served by a scaffolded staff crew.
 - Wait for an **orc and an elf** to sit near each other at night — the
   bouncer earns his keep.
 - Listen for the **bard's** verses; they lift the whole room's mood.
+- Open the **Keeper's Ledger** (`Tab`): tune menu prices, restock the
+  cellar, review the day's takings, check staff wages, buy upgrades, and
+  track your standing with each race.
+- Keep an eye on the **tension bar** under your coin count — a rowdy room
+  brawls more, and brawls smash furniture you'll have to repair.
+- Step into a fight yourself: shove the brawlers apart (`F`) or buy the
+  room a calming round (`G`).
 
 ## Project layout
 
@@ -57,18 +70,26 @@ autoload/     Global services registered as autoload singletons
   save_manager.gd       JSON save slots + save-participant group
   settings_manager.gd   User preferences (user://settings.cfg)
   time_manager.gd       In-game calendar/clock
+  tension_manager.gd    Room tension meter with warning/critical bands
+  economy_manager.gd    Ledger, daily totals, wages and rent charges
+  reputation_manager.gd Per-race standing, spawn/mood/tip modifiers
+  upgrade_manager.gd    Upgrade catalog, ownership, summed named effects
+  inventory_manager.gd  Stock counts, menu prices, restocking
+  brawl_manager.gd      Fight tracking, bystanders, damage, interventions
 assets/materials/       Shared PBR + shader materials (.tres)
 data/
-  scripts/              Typed Resource models (items, recipes, races, saves)
-  items/ recipes/ races/  Data instances loaded by GameManager at boot
+  scripts/              Typed Resource models (items, recipes, races, saves,
+                        upgrades)
+  items/ recipes/ races/ upgrades/  Data instances loaded at boot
   dialogue/             NPC line content (JSON, per moment and race)
 game/main/              Boot scene: main flow, pause, quick save/load
 interaction/            Interactable contract, ray, highlight, carryable props
 npc/                    NPC life: base class, patrons, seats, dialogue, spawner
   staff/                Bartender, cook, bouncer, bard roles
-player/                 Player controller scene + script
+player/                 Player controller + brawl intervention component
 shaders/                Procedural shaders (flame, embers, dust, outline)
-ui/hud/                 Crosshair, prompts, clock, notifications, pause
+ui/hud/                 Crosshair, prompts, clock, funds, tension bar, pause
+ui/management/          The Keeper's Ledger management screen
 utils/                  Math and string helpers
 world/
   tavern/               Tavern scene + procedural architecture builder
@@ -111,6 +132,22 @@ world/
   follows an hourly busyness curve and shifts the race mix across day,
   evening, and night, under a configurable population cap. Doors open
   automatically for NPC bodies and close behind them.
+- **Management layer (Phase 3).** Single sources of truth: `TensionManager`
+  (0–100 with CALM/UNEASY/CRITICAL bands; feeds patron brawl chance),
+  `EconomyManager` (every coin flows through `earn`/`try_spend`/
+  `absorb_loss` into a rolling ledger with per-day totals; wages and rent
+  charge at midnight and missing them has consequences),
+  `ReputationManager` (per-race 0–100 standing that scales spawn weights,
+  arrival mood, and tips), `InventoryManager` (stock and player-set menu
+  prices — gouging above 2× base value sours moods; orders reserve stock
+  and sold-out items cost reputation), `UpgradeManager` (upgrades grant
+  summed named effects like `max_patrons_bonus` or `prep_speed_bonus` that
+  systems query by key), and `BrawlManager` (tracks fights, rolls bystander
+  join/flee reactions by race, books furniture damage over time, and offers
+  the intervention API used by the bouncer and the player's shove/soothe
+  keys). The Keeper's Ledger (`ui/management/`) is a tabbed pause-screen UI
+  over live manager state: overview and ledger, menu and stock, staff and
+  wages, the upgrade shop, reputation bars, and a running journal.
 - **The tavern shell is generated** by `TavernArchitecture` from named layout
   constants (rooms, openings, stairs), so the whole building can be retuned
   from one file while keeping visuals and collision in lockstep. The

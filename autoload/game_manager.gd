@@ -15,6 +15,7 @@ enum State {
 	BOOTING,
 	PLAYING,
 	PAUSED,
+	MANAGEMENT,
 }
 
 const ITEMS_DIRECTORY: String = "res://data/items"
@@ -60,8 +61,30 @@ func resume_game() -> void:
 	_set_state(State.PLAYING)
 
 
+## Freezes the world while the management ledger is open.
+func open_management() -> void:
+	if state != State.PLAYING:
+		return
+	get_tree().paused = true
+	TimeManager.clock_paused = true
+	_set_state(State.MANAGEMENT)
+
+
+## Returns to play from the management screen.
+func close_management() -> void:
+	if state != State.MANAGEMENT:
+		return
+	get_tree().paused = false
+	TimeManager.clock_paused = false
+	_set_state(State.PLAYING)
+
+
 func is_paused() -> bool:
 	return state == State.PAUSED
+
+
+func is_in_management() -> bool:
+	return state == State.MANAGEMENT
 
 
 ## Adds coins to the tavern's funds.

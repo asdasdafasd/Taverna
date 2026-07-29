@@ -59,6 +59,16 @@ const GOBLIN_SKIM_FRACTION: float = 0.5
 ## Angry leavers storm out faster than they walked in.
 const ANGRY_STRIDE_MULTIPLIER: float = 1.35
 
+# --- World feedback -------------------------------------------------------------
+const TENSION_ANGRY_LEAVE: float = 6.0
+const TENSION_SOLD_OUT: float = 3.0
+const TENSION_ENEMY_SEATED: float = 2.5
+const REPUTATION_HAPPY_LEAVE: float = 1.5
+const REPUTATION_ANGRY_LEAVE: float = -2.5
+const REPUTATION_SOLD_OUT: float = -1.0
+const MOOD_GOUGING_PENALTY: float = 0.12
+const FLEE_MOOD_PENALTY: float = 0.25
+
 var state: State = State.ENTERING
 
 ## 0 = fully sated, 1 = desperate.
@@ -96,6 +106,13 @@ func setup(patron_race: RaceData, entrance: Vector3, exit_point: Vector3) -> voi
 	_exit_point = exit_point
 	thirst = clampf(randf_range(0.45, 0.75) * maxf(race.thirst_rate, 0.1), 0.0, 0.9)
 	hunger = clampf(randf_range(0.2, 0.5) * race.hunger_rate, 0.0, 0.9)
+	mood = clampf(
+		MOOD_START
+		+ ReputationManager.starting_mood_offset(race.id)
+		+ UpgradeManager.effect_value(&"mood_bonus"),
+		0.0,
+		1.0
+	)
 	if not race.given_names.is_empty():
 		npc_name = race.given_names[randi() % race.given_names.size()]
 	else:
@@ -246,7 +263,22 @@ func _place_order(wants_drink: bool) -> void:
 		else:
 			hunger = NEED_SATISFIED_VALUE
 		return
-	var item_id: StringName = pool[0]
+	var item_id: StringName = _pick_stocked_item(pool)
+	if item_id == &"":
+		# Everything they'd order is sold out: sour moment for the house.
+		mood = maxf(0.0, mood - MOOD_GOUGING_PENALTY)
+		TensionManager.add_tension(TENSION_SOLD_OUT, "the kitchen ran dry")
+		ReputationManager.adjust(race.id, REPUTATION_SOLD_OUT)
+		say(DialogueLibrary.patron_line(DialogueLibrary.MOMENT_WAITING, race.id))
+		if wants_drink:
+			thirst = NEED_SATISFIED_VALUE
+		else:
+			hunger = NEED_SATISFIED_VALUE
+		return
+	if not InventoryManager.try_consume(item_id):
+		return
+	if InventoryManager.is_gouging(item_id):
+		mood = maxf(0.0, mood - MOOD_GOUGING_PENALTY)
 	active_order = PatronOrder.new(kind, item_id, self)
 	_wait_seconds = 0.0
 	_waiting_line_said = false
@@ -255,15 +287,26 @@ func _place_order(wants_drink: bool) -> void:
 	EventBus.order_placed.emit(active_order)
 
 
+## First preferred item that is actually in stock, or empty.
+func _pick_stocked_item(pool: Array[StringName]) -> StringName:
+	for item_id: StringName in pool:
+		if InventoryManager.has_stock(item_id):
+			return item_id
+	return &""
+
+
 func _think_waiting(elapsed: float) -> void:
 	if active_order == null or not active_order.is_active():
 		return
 	_wait_seconds += elapsed
 	mood = maxf(0.0, mood - MOOD_WAIT_PENALTY_PER_SECOND * elapsed)
-	var patience: float = race.patience_seconds
+	var patience: float = race.patience_seconds * (
+		1.0 + UpgradeManager.effect_value(&"patience_bonus")
+	)
 	if _wait_seconds > patience:
 		# Out of patience: cancel, get angry, leave without paying the tab.
 		active_order.status = PatronOrder.Status.CANCELLED
+		InventoryManager.return_unit(active_order.item_id)
 		active_order = null
 		mood = 0.0
 		say(DialogueLibrary.patron_line(DialogueLibrary.MOMENT_ANGRY, race.id))
@@ -393,7 +436,13 @@ func _maybe_start_brawl() -> bool:
 		return false
 	if race.aggression <= 0.0:
 		return false
-	if randf() > BRAWL_CHANCE_PER_THINK * race.aggression:
+	var chance: float = (
+		BRAWL_CHANCE_PER_THINK
+		* race.aggression
+		* TensionManager.brawl_chance_multiplier()
+		* (1.0 - clampf(UpgradeManager.effect_value(&"brawl_chance_reduction"), 0.0, 0.9))
+	)
+	if randf() > chance:
 		return false
 	for neighbor: PatronNPC in _seated_neighbors():
 		if race.is_enemy_of(neighbor.race.id) and neighbor.can_be_drawn_into_brawl():
@@ -459,9 +508,52 @@ func _end_brawl(mutual: bool) -> void:
 func break_up_fight() -> void:
 	if state != State.FIGHTING:
 		return
+	var opponent: PatronNPC = _brawl_opponent
 	_brawl_opponent = null
+	if opponent != null and is_instance_valid(opponent):
+		EventBus.brawl_ended.emit(self, opponent)
 	say(DialogueLibrary.patron_line(DialogueLibrary.MOMENT_ANGRY, race.id))
 	_begin_leaving(true)
+
+
+## Peaceful resolution (player calmed things down): both fighters return
+## to their evening instead of storming out.
+func calm_down_from_fight() -> void:
+	if state != State.FIGHTING:
+		return
+	var opponent: PatronNPC = _brawl_opponent
+	_brawl_opponent = null
+	if opponent != null and is_instance_valid(opponent):
+		EventBus.brawl_ended.emit(self, opponent)
+	mood = clampf(mood + MOOD_SERVED_BONUS, 0.0, 1.0)
+	_return_to_seat_or_leave()
+	if opponent != null and is_instance_valid(opponent):
+		opponent.receive_calming()
+
+
+## The opponent's side of a peaceful resolution.
+func receive_calming() -> void:
+	if state != State.FIGHTING:
+		return
+	_brawl_opponent = null
+	mood = clampf(mood + MOOD_SERVED_BONUS * 0.5, 0.0, 1.0)
+	_return_to_seat_or_leave()
+
+
+## Bystander reaction: abandon the evening and hurry out scared.
+func flee_from_brawl() -> void:
+	if state == State.FIGHTING or state == State.LEAVING:
+		return
+	mood = maxf(0.0, mood - FLEE_MOOD_PENALTY)
+	_begin_leaving(false)
+
+
+func _return_to_seat_or_leave() -> void:
+	if claimed_seat != null and is_instance_valid(claimed_seat):
+		sit_at(claimed_seat)
+		_set_state(State.SITTING)
+	else:
+		_begin_leaving(false)
 
 
 # --- State: leaving and payment ------------------------------------------------------
@@ -474,9 +566,22 @@ func _begin_leaving(angry: bool) -> void:
 	_release_seat()
 	if active_order != null and active_order.is_active():
 		active_order.status = PatronOrder.Status.CANCELLED
+		InventoryManager.return_unit(active_order.item_id)
 		active_order = null
-	if not angry:
+	var reputation_gain_bonus: float = (
+		1.0 + UpgradeManager.effect_value(&"reputation_gain_bonus")
+	)
+	if angry:
+		TensionManager.add_tension(
+			TENSION_ANGRY_LEAVE, "%s stormed out" % npc_name
+		)
+		ReputationManager.adjust(race.id, REPUTATION_ANGRY_LEAVE)
+	else:
 		_settle_tab()
+		if mood >= MOOD_HAPPY_THRESHOLD:
+			ReputationManager.adjust(
+				race.id, REPUTATION_HAPPY_LEAVE * reputation_gain_bonus
+			)
 		say(DialogueLibrary.patron_line(DialogueLibrary.MOMENT_LEAVING, race.id))
 	_set_state(State.LEAVING)
 	navigate_to(_exit_point)
@@ -488,18 +593,26 @@ func _settle_tab() -> void:
 	var total: int = tab_copper
 	var tip: int = 0
 	if mood >= MOOD_HAPPY_THRESHOLD:
-		tip = int(ceil(float(tab_copper) * TIP_BASE_FRACTION * race.tip_multiplier))
+		var tip_fraction: float = (
+			TIP_BASE_FRACTION * race.tip_multiplier
+			* (1.0 + UpgradeManager.effect_value(&"tip_bonus"))
+			+ ReputationManager.tip_bonus_fraction(race.id)
+		)
+		tip = int(ceil(float(tab_copper) * tip_fraction))
+	var skim_blocked: bool = UpgradeManager.effect_value(&"skim_protection") > 0.0
 	if (
 		race.unique_trait == RaceData.UniqueTrait.COIN_SKIM
+		and not skim_blocked
 		and randf() < GOBLIN_SKIM_CHANCE
 	):
 		total = int(floor(float(total) * GOBLIN_SKIM_FRACTION))
 		tip = 0
 		say(DialogueLibrary.patron_line(DialogueLibrary.MOMENT_SKIM, race.id))
-	var paid: int = total + tip
 	tab_copper = 0
-	GameManager.add_funds(paid)
-	EventBus.patron_paid.emit(self, paid)
+	EconomyManager.earn(total, EconomyManager.Category.SALE, npc_name)
+	if tip > 0:
+		EconomyManager.earn(tip, EconomyManager.Category.TIP, npc_name)
+	EventBus.patron_paid.emit(self, total + tip)
 
 
 func _despawn() -> void:
@@ -555,6 +668,7 @@ func _apply_neighbor_reactions() -> void:
 	for neighbor: PatronNPC in _seated_neighbors():
 		if race.is_enemy_of(neighbor.race.id):
 			mood = maxf(0.0, mood - MOOD_ENEMY_NEARBY_PENALTY)
+			TensionManager.add_tension(TENSION_ENEMY_SEATED)
 		elif race.is_ally_of(neighbor.race.id):
 			mood = clampf(mood + MOOD_ALLY_NEARBY_BONUS, 0.0, 1.0)
 		# The new arrival also affects the sitter.

@@ -13,11 +13,17 @@ signal work_state_changed(is_working: bool)
 const IDLE_LINE_CHANCE: float = 0.04
 const POST_WANDER_CHANCE: float = 0.25
 
+## Default daily wage in copper; roles override in _init.
+const DEFAULT_WAGE_COPPER: int = 12
+
 ## Player-facing role title, e.g. "Bartender".
 var role_title: String = ""
 
 ## Uniform tint applied to the body so staff read differently from patrons.
 var uniform_color: Color = Color(0.5, 0.45, 0.4)
+
+## Copper paid per day for this employee.
+var wage_copper: int = DEFAULT_WAGE_COPPER
 
 ## Where this staff member stands while idle; roles set these in setup.
 var duty_posts: Array[Vector3] = []
@@ -39,6 +45,7 @@ func setup_staff(
 func _ready() -> void:
 	super()
 	name = "Staff_%s_%s" % [role_title, npc_name]
+	add_to_group(EconomyManager.STAFF_GROUP)
 	set_body_tint(uniform_color)
 	if not duty_posts.is_empty():
 		global_position = duty_posts[0]

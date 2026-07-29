@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/scripts/upgrade_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"long_tables"
+display_name = "Long Tables"
+description = "Replace the round tables with communal boards. Raises the patron cap by 4 more."
+branch = 0
+cost_copper = 300
+requires_id = &"extra_stools"
+effects = Dictionary[StringName, float]({&"max_patrons_bonus": 4.0})

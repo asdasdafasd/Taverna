@@ -6,6 +6,9 @@ extends CanvasLayer
 const NOTIFICATION_SECONDS: float = 2.6
 const CROSSHAIR_FOCUS_COLOR: Color = Color(1.0, 0.85, 0.5, 0.95)
 const CROSSHAIR_IDLE_COLOR: Color = Color(1.0, 1.0, 1.0, 0.55)
+const TENSION_COLORS: Array[Color] = [
+	Color(0.55, 0.8, 0.45), Color(0.95, 0.75, 0.3), Color(0.9, 0.35, 0.28),
+]
 
 var _notification_tween: Tween = null
 var _focused_interactable: Interactable = null
@@ -14,6 +17,7 @@ var _focused_interactable: Interactable = null
 @onready var _prompt_label: Label = %PromptLabel
 @onready var _clock_label: Label = %ClockLabel
 @onready var _funds_label: Label = %FundsLabel
+@onready var _tension_bar: ProgressBar = %TensionBar
 @onready var _notification_label: Label = %NotificationLabel
 @onready var _pause_overlay: Control = %PauseOverlay
 
@@ -33,8 +37,12 @@ func _ready() -> void:
 	TimeManager.minute_passed.connect(_on_minute_passed)
 	GameManager.funds_changed.connect(_on_funds_changed)
 	GameManager.state_changed.connect(_on_game_state_changed)
+	TensionManager.tension_changed.connect(_on_tension_changed)
+	TensionManager.warning_reached.connect(_on_tension_warning)
+	TensionManager.critical_reached.connect(_on_tension_critical)
 	_clock_label.text = TimeManager.clock_text()
 	_funds_label.text = StringUtils.format_coins(GameManager.funds_copper)
+	_on_tension_changed(TensionManager.tension)
 
 
 func _on_focus_changed(interactable: Interactable) -> void:
@@ -85,6 +93,21 @@ func _on_funds_changed(copper_total: int) -> void:
 	_funds_label.text = StringUtils.format_coins(copper_total)
 
 
+func _on_tension_changed(tension: float) -> void:
+	_tension_bar.value = tension
+	var fill: StyleBoxFlat = StyleBoxFlat.new()
+	fill.bg_color = TENSION_COLORS[TensionManager.level()]
+	_tension_bar.add_theme_stylebox_override("fill", fill)
+
+
+func _on_tension_warning() -> void:
+	_on_notification_posted("The room is getting uneasy...")
+
+
+func _on_tension_critical() -> void:
+	_on_notification_posted("The room is about to boil over!")
+
+
 func _on_game_state_changed(new_state: int) -> void:
 	_pause_overlay.visible = new_state == GameManager.State.PAUSED
-	_crosshair.visible = new_state != GameManager.State.PAUSED
+	_crosshair.visible = new_state == GameManager.State.PLAYING

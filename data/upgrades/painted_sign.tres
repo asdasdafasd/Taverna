@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="UpgradeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://data/scripts/upgrade_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"painted_sign"
+display_name = "Painted Road Sign"
+description = "A flagon that actually looks like a flagon. Word spreads: reputation gains run 50% higher."
+branch = 4
+cost_copper = 190
+requires_id = &""
+effects = Dictionary[StringName, float]({&"reputation_gain_bonus": 0.5})

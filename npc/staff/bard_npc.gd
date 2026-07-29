@@ -15,6 +15,7 @@ var _seconds_until_verse: float = 0.0
 func _init() -> void:
 	role_title = "Bard"
 	uniform_color = Color(0.5, 0.24, 0.42)
+	wage_copper = 10
 	_seconds_until_verse = randf_range(VERSE_INTERVAL_MIN, VERSE_INTERVAL_MAX)
 
 

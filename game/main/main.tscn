@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://game/main/main.gd" id="1"]
 [ext_resource type="PackedScene" path="res://world/tavern/tavern.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://player/player.tscn" id="3"]
 [ext_resource type="PackedScene" path="res://ui/hud/hud.tscn" id="4"]
 [ext_resource type="Script" path="res://npc/npc_spawner.gd" id="5"]
+[ext_resource type="Script" path="res://ui/management/management_screen.gd" id="6"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1")
@@ -21,3 +22,6 @@ process_mode = 1
 script = ExtResource("5")
 
 [node name="Hud" parent="." instance=ExtResource("4")]
+
+[node name="ManagementScreen" type="CanvasLayer" parent="."]
+script = ExtResource("6")
