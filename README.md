@@ -66,7 +66,8 @@ learn-by-doing tutorial. Everything persists through saves.
   room a calming round (`G`).
 - Follow the **story**: Maren the courier carries your grandfather's
   letters, Old Fenwick remembers what this hall used to be, and someone
-  pale only visits after the candles gutter. The **Quests** tab in the
+  pale only visits after the candles gutter. The **quest tracker** at the
+  top right follows your current thread, and the **Quests** tab in the
   Ledger tracks every thread across three acts.
 - Keep playing through the days — a traveling minstrel, a duke's assessor,
   a white stag in the yard: **random events** keep no two evenings alike.
@@ -104,7 +105,8 @@ npc/                    NPC life: base class, patrons, seats, dialogue, spawner
   story/                Recurring characters, story director, staged dialogue
 player/                 Player controller + brawl intervention component
 shaders/                Procedural shaders (flame, embers, dust, outline)
-ui/hud/                 Crosshair, prompts, clock, funds, tension bar, pause
+ui/hud/                 Crosshair, prompts, clock, funds, tension bar,
+                        quest tracker, pause
 ui/management/          The Keeper's Ledger management screen
 ui/dialogue/            Paged story conversation panel
 ui/onboarding/          Intro letter sequence + learn-by-doing tutorial

@@ -116,7 +116,6 @@ func _connect_gameplay_signals() -> void:
 	EventBus.patron_paid.connect(_on_patron_paid)
 	EventBus.patron_entered.connect(_on_patron_entered)
 	EventBus.patron_seated.connect(_on_patron_seated)
-	EventBus.patron_left.connect(_on_patron_left)
 	EventBus.brawl_started.connect(_on_brawl_started)
 	EventBus.brawl_ended.connect(_on_brawl_ended)
 	EventBus.brawl_calmed.connect(_on_brawl_calmed)
@@ -148,10 +147,6 @@ func _on_patron_entered(patron: PatronNPC) -> void:
 func _on_patron_seated(_patron: PatronNPC, _seat: Seat) -> void:
 	if TensionManager.level() == TensionManager.Level.CALM:
 		_dispatch_threshold("gathering", "", _occupied_seat_count())
-
-
-func _on_patron_left(_patron: PatronNPC) -> void:
-	pass
 
 
 func _on_brawl_started(_initiator: PatronNPC, _target: PatronNPC) -> void:

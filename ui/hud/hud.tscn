@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://ui/hud/hud.gd" id="1"]
 [ext_resource type="Script" path="res://ui/hud/crosshair.gd" id="2"]
+[ext_resource type="Script" path="res://ui/hud/quest_tracker.gd" id="3"]
 
 [sub_resource type="StyleBoxFlat" id="panel_style"]
 content_margin_left = 14.0
@@ -91,6 +92,18 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 10)
 max_value = 100.0
 show_percentage = false
+
+[node name="QuestTracker" type="PanelContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -340.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 40.0
+grow_horizontal = 0
+script = ExtResource("3")
 
 [node name="NotificationLabel" type="Label" parent="Root"]
 unique_name_in_owner = true
