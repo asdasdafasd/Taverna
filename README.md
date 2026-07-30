@@ -4,13 +4,16 @@ A cozy 3D tavern management game built with **Godot 4.4** (Forward+).
 You are the keeper of a roadside tavern: pour ale, feed travelers, and keep
 the hearth burning.
 
-This repository currently contains **Phases 1–3**: the playable foundation
+This repository currently contains **Phases 1–4**: the playable foundation
 (player controller, tavern interior, interaction framework, core services),
 living NPCs (seven fantasy races of patrons who enter, claim seats, order,
-gossip, brawl, pay, and leave, served by a staff crew), and the management
-layer — economy and ledger, room tension, per-race reputation, dangerous
+gossip, brawl, pay, and leave, served by a staff crew), the management
+layer (economy and ledger, room tension, per-race reputation, dangerous
 brawls with interventions, menu pricing and stock, and a working upgrade
-tree, all persisted through saves.
+tree), and the narrative layer — a three-act story about the truce-hall
+buried under the Flagon, 22 event-driven quests, recurring named
+characters, a random-event library, a skippable letter intro, and a
+learn-by-doing tutorial. Everything persists through saves.
 
 ## Getting started
 
@@ -36,6 +39,7 @@ tree, all persisted through saves.
 | `Tab` | Open / close the Keeper's Ledger (management screen) |
 | `F` | Break up the nearest brawl by force (raises tension a little) |
 | `G` | Stand a round on the house (costs coin, may end a fight peacefully) |
+| `H` | Skip the tutorial (first run only) |
 | `Esc` | Pause / resume |
 | `F5` | Quick save |
 | `F8` | Quick load |
@@ -60,6 +64,12 @@ tree, all persisted through saves.
   brawls more, and brawls smash furniture you'll have to repair.
 - Step into a fight yourself: shove the brawlers apart (`F`) or buy the
   room a calming round (`G`).
+- Follow the **story**: Maren the courier carries your grandfather's
+  letters, Old Fenwick remembers what this hall used to be, and someone
+  pale only visits after the candles gutter. The **Quests** tab in the
+  Ledger tracks every thread across three acts.
+- Keep playing through the days — a traveling minstrel, a duke's assessor,
+  a white stag in the yard: **random events** keep no two evenings alike.
 
 ## Project layout
 
@@ -76,25 +86,34 @@ autoload/     Global services registered as autoload singletons
   upgrade_manager.gd    Upgrade catalog, ownership, summed named effects
   inventory_manager.gd  Stock counts, menu prices, restocking
   brawl_manager.gd      Fight tracking, bystanders, damage, interventions
+  story_manager.gd      Story flags, acts, the Accord decision
+  quest_manager.gd      Quest loading, event routing, rewards, unlocks
+  tavern_events_manager.gd  Random-event table: weights, cooldowns, effects
 assets/materials/       Shared PBR + shader materials (.tres)
 data/
   scripts/              Typed Resource models (items, recipes, races, saves,
-                        upgrades)
+                        upgrades, quests)
   items/ recipes/ races/ upgrades/  Data instances loaded at boot
-  dialogue/             NPC line content (JSON, per moment and race)
+  quests/               Quest definitions (quests.json)
+  events/               Random tavern events (events.json)
+  dialogue/             NPC and story line content (JSON)
 game/main/              Boot scene: main flow, pause, quick save/load
 interaction/            Interactable contract, ray, highlight, carryable props
 npc/                    NPC life: base class, patrons, seats, dialogue, spawner
   staff/                Bartender, cook, bouncer, bard roles
+  story/                Recurring characters, story director, staged dialogue
 player/                 Player controller + brawl intervention component
 shaders/                Procedural shaders (flame, embers, dust, outline)
 ui/hud/                 Crosshair, prompts, clock, funds, tension bar, pause
 ui/management/          The Keeper's Ledger management screen
+ui/dialogue/            Paged story conversation panel
+ui/onboarding/          Intro letter sequence + learn-by-doing tutorial
 utils/                  Math and string helpers
 world/
   tavern/               Tavern scene + procedural architecture builder
   furniture/            Tables, stools, bar, shelf, barrels, kitchen block
-  props/                Doors, fireplace, candles, lanterns, tankards
+  props/                Doors, fireplace, candles, lanterns, tankards,
+                        story markers
 ```
 
 ## Architecture notes
@@ -148,6 +167,24 @@ world/
   keys). The Keeper's Ledger (`ui/management/`) is a tabbed pause-screen UI
   over live manager state: overview and ledger, menu and stock, staff and
   wages, the upgrade shop, reputation bars, and a running journal.
+- **Story and quests (Phase 4).** A three-act arc: the player inherits the
+  Flagon, learns it was the valley's buried truce-hall, and finally chooses
+  to renew the old Accord or let it fade — both endings change the game
+  state (tension/reputation vs. a coin windfall). `StoryManager` owns flags
+  and acts; `QuestManager` loads 22 quests from `data/quests/quests.json`
+  and routes 18 gameplay event types (orders delivered, tabs paid, brawls,
+  tension recovery, funds and reputation thresholds, dialogue, markers)
+  into objective progress, failure triggers, and rewards — no quest logic
+  lives outside the data and the router. Recurring characters (Maren the
+  courier, Old Fenwick, Vess the witness) are placed by `StoryDirector` on
+  schedule windows and story state; their staged dialogue lives in
+  `data/dialogue/story_dialogue.json` and plays through a paged panel with
+  a real choice at the climax. `TavernEventsManager` rolls a 15-entry
+  weighted event table hourly against live tavern state (hours, patrons,
+  races present, funds, stock, act) with per-event day cooldowns. First
+  runs get a three-beat skippable letter intro and a five-step tutorial
+  that only advances when the player performs each action; both remember
+  completion per profile and per save.
 - **The tavern shell is generated** by `TavernArchitecture` from named layout
   constants (rooms, openings, stairs), so the whole building can be retuned
   from one file while keeping visuals and collision in lockstep. The

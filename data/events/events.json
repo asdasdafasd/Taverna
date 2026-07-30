@@ -1,0 +1,148 @@
+{
+	"events": [
+		{
+			"id": "traveling_minstrel",
+			"title": "A Traveling Minstrel",
+			"text": "A dusty minstrel plays three songs for his supper. The room hums along and forgets its grudges.",
+			"kind": "flavor",
+			"weight": 3.0,
+			"cooldown_days": 1,
+			"effects": {"tension": -8}
+		},
+		{
+			"id": "cat_adopts_tavern",
+			"title": "The Tavern Cat",
+			"text": "A ginger cat strolls in, inspects the hearth, and claims the warmest stool as though it holds the deed. The guests approve.",
+			"kind": "flavor",
+			"weight": 2.0,
+			"cooldown_days": 3,
+			"effects": {"tension": -5, "all_reputation": 1}
+		},
+		{
+			"id": "spilled_cask",
+			"title": "A Spilled Cask",
+			"text": "A cask slips its chock in the cellar and glugs itself empty across the stones. The smell is wonderful. The loss is not.",
+			"kind": "economic",
+			"weight": 2.0,
+			"cooldown_days": 2,
+			"conditions": {"min_stock": 3},
+			"effects": {"stock_loss": {"item": "amber_ale", "units": 2}, "tension": 3}
+		},
+		{
+			"id": "merchant_gratitude",
+			"title": "A Merchant's Gratitude",
+			"text": "A merchant whose axle you let mend in the yard last month settles his old tab — with interest.",
+			"kind": "economic",
+			"weight": 2.0,
+			"cooldown_days": 3,
+			"effects": {"copper": 25}
+		},
+		{
+			"id": "tax_collector",
+			"title": "The Duke's Assessor",
+			"text": "A thin man with a thick ledger counts your chimneys, mutters 'two', and presents a levy on the spot.",
+			"kind": "economic",
+			"weight": 1.5,
+			"cooldown_days": 4,
+			"conditions": {"min_funds": 80},
+			"effects": {"copper": -30, "tension": 4}
+		},
+		{
+			"id": "barrel_bargain",
+			"title": "A Bargain on Barrels",
+			"text": "A carter undersold on the pass road offers a barrel of mead below cost, no questions welcome.",
+			"kind": "economic",
+			"weight": 2.0,
+			"cooldown_days": 3,
+			"effects": {"stock_gain": {"item": "blackroot_mead", "units": 3}, "copper": -8}
+		},
+		{
+			"id": "old_feud_flares",
+			"title": "An Old Feud Flares",
+			"text": "Two families who stopped speaking a generation ago pick tables in earshot of each other. The air goes taut as a bowstring.",
+			"kind": "social",
+			"weight": 2.5,
+			"cooldown_days": 1,
+			"conditions": {"min_patrons": 2},
+			"effects": {"tension": 12}
+		},
+		{
+			"id": "dwarf_song_night",
+			"title": "Dwarven Song Night",
+			"text": "Every dwarf in the room finds the same low harmony at the same moment. Stone songs make the walls feel thicker and the night safer.",
+			"kind": "social",
+			"weight": 1.5,
+			"cooldown_days": 2,
+			"conditions": {"race_present": "dwarf"},
+			"effects": {"tension": -10, "reputation": {"dwarf": 2}}
+		},
+		{
+			"id": "goblin_dice_ring",
+			"title": "A Goblin Dice Ring",
+			"text": "Someone's running weighted dice under the corner table. By the time you notice, three purses are lighter and one temper is not.",
+			"kind": "social",
+			"weight": 1.5,
+			"cooldown_days": 2,
+			"conditions": {"race_present": "goblin"},
+			"effects": {"tension": 8, "copper": -10}
+		},
+		{
+			"id": "sudden_storm",
+			"title": "A Sudden Storm",
+			"text": "Rain hits the shutters like flung gravel. Everyone within a mile of the Flagon suddenly remembers how much they love a warm hearth.",
+			"kind": "weather",
+			"weight": 2.5,
+			"cooldown_days": 1,
+			"effects": {"tension": -4, "all_reputation": 1}
+		},
+		{
+			"id": "cold_snap",
+			"title": "A Cold Snap",
+			"text": "Frost in the small hours. The hearth gulps wood, the kitchen runs slow, and the stew pot never quite comes back to a boil.",
+			"kind": "weather",
+			"weight": 2.0,
+			"cooldown_days": 2,
+			"conditions": {"hours": [22, 23, 0, 1, 2, 3, 4, 5]},
+			"effects": {"copper": -8, "tension": 3}
+		},
+		{
+			"id": "midsummer_light",
+			"title": "Long Midsummer Light",
+			"text": "The evening light refuses to leave, gilding every mug on the counter. Guests linger, and lingering guests order twice.",
+			"kind": "weather",
+			"weight": 2.0,
+			"cooldown_days": 2,
+			"conditions": {"hours": [17, 18, 19, 20]},
+			"effects": {"copper": 15, "all_reputation": 1}
+		},
+		{
+			"id": "aldous_cache",
+			"title": "Aldous's Little Cache",
+			"text": "A floorboard by the hearth gives underfoot. Beneath it: a tin of coins and a note in a familiar hand — 'For the night you think you can't. You can.'",
+			"kind": "special",
+			"weight": 0.6,
+			"cooldown_days": 90,
+			"conditions": {"min_act": 2},
+			"effects": {"copper": 60, "tension": -10}
+		},
+		{
+			"id": "white_stag",
+			"title": "The White Stag",
+			"text": "A white stag stands in the yard for a full minute, breath steaming, watching the door. The old folk say it only visits houses the forest trusts.",
+			"kind": "special",
+			"weight": 0.5,
+			"cooldown_days": 90,
+			"effects": {"all_reputation": 3, "tension": -12}
+		},
+		{
+			"id": "accord_tremor",
+			"title": "A Tremor in the Stones",
+			"text": "For one heartbeat every candle leans the same way and the cellar stones hum like a struck bell. Whatever sleeps below the Flagon is not sleeping well.",
+			"kind": "special",
+			"weight": 0.8,
+			"cooldown_days": 5,
+			"conditions": {"min_act": 2},
+			"effects": {"tension": 10}
+		}
+	]
+}

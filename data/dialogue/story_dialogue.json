@@ -1,0 +1,105 @@
+{
+	"maren": {
+		"ambient": [
+			"Roads were kind today. Mostly.",
+			"I don't stay long anywhere. Except here, somehow.",
+			"Aldous always poured before I asked. You'll learn."
+		],
+		"stages": [
+			{
+				"if_flags_none": ["act1_letter"],
+				"pages": [
+					"Maren shrugs road-dust off her satchel. 'So you're the grandchild. You have his stubborn chin.'",
+					"'Aldous paid me for one last route: deliver this when you'd stood behind that bar long enough to mean it.' She hands you a sealed letter.",
+					"The letter reads: 'The Flagon is older than our family, older than the village. Mind the cellar, mind the guests, and mind who drinks quietly. Some of them remember. — A.'"
+				]
+			},
+			{
+				"if_flags_all": ["stone_found"],
+				"if_flags_none": ["aldous_truth"],
+				"pages": [
+					"Maren studies your face. 'You've been in the cellar. You've got that look he used to get.'",
+					"She produces a second letter, older, worn soft at the folds. 'He said: only after the stone.'",
+					"'The Flagon was the truce-hall,' the letter says. 'Seven peoples signed the Accord under this roof, and the stone still holds their promise — barely. Vess witnessed it. She still comes, when the candles gutter. Ask her what it costs. — A.'"
+				]
+			},
+			{
+				"pages": [
+					"'Route's quiet this week,' Maren says, settling onto a stool. 'Which worries me more than a loud one.'",
+					"'Keep the hearth lit, keeper. This place matters more than its ale. Though the ale matters too — pour me one.'"
+				]
+			}
+		]
+	},
+	"fenwick": {
+		"ambient": [
+			"Hrm. Stool's worn right at last.",
+			"Forty years I've held up this end of the bar.",
+			"Your grandfather cheated at draughts. Magnificently."
+		],
+		"stages": [
+			{
+				"if_flags_all": ["chill_witnessed"],
+				"if_flags_none": ["heard_of_accord"],
+				"pages": [
+					"Fenwick sets down his mug with dwarven ceremony. 'Saw the pale one drink here last night, did you? Aye. They've always come. Aldous never charged them and never said why.'",
+					"'Forty years back, deep in his cups, he told me this hall was no tavern at first. A truce-hall. Seven peoples, one table, one promise cut into stone.'",
+					"'The stone's still down there, under your cellar. Behind the barrels, low on the north wall. Go look. Then tell me I'm a drunk old fool — to my face.'"
+				]
+			},
+			{
+				"if_flags_all": ["stone_found"],
+				"pages": [
+					"'So it's real,' Fenwick breathes, for once quiet. 'All those years I half-thought the ale invented it.'",
+					"'Whatever the stone asks of you, keeper — answer better than the last three owners did. They pretended not to hear. Then came the bad winters.'"
+				]
+			},
+			{
+				"pages": [
+					"'The ale's honest tonight,' Fenwick allows, which from a dwarf is a love letter.",
+					"'Keep the hearth hot and the prices fair, and I'll die on this stool in fifty years, happy.'"
+				]
+			}
+		]
+	},
+	"vess": {
+		"ambient": [
+			"...",
+			"The candles remember more than the living do.",
+			"I signed in winter. It has been winter since."
+		],
+		"stages": [
+			{
+				"if_flags_none": ["met_vess"],
+				"pages": [
+					"The pale woman by the far wall was not there when you looked a moment ago. 'Keeper,' she says, and the word has edges of frost. 'I am Vess. I signed the Accord in this room, when this room had no bar and no beer — only seven peoples tired of burying their children.'",
+					"'I witnessed. Witnesses do not get to die until the promise does. Your grandfather kept the stone fed with goodwill — every fair pour, every fight ended with words, every stranger warmed. That is the coin the Accord runs on.'",
+					"'It is running out. Soon I will ask you what Aldous was asked. Think on what this house is for, before you answer.'"
+				]
+			},
+			{
+				"if_flags_all": ["met_vess"],
+				"if_flags_none": ["accord_choice_made"],
+				"choice": {
+					"prompt": "Vess folds her hands. 'The stone is nearly spent. Renew the Accord — bind this house to the old peace, and your own labor with it — or let it fade, keep your coin, and trust the valley to remember kindness on its own. Choose, keeper.'",
+					"renew_label": "Renew the Accord",
+					"renew_pages": [
+						"You lay your hand where seven hands once lay. The stone drinks something out of the evening — and gives something back: the hearth burns steadier, and the room feels like held breath released.",
+						"'So,' Vess says, and for the first time her voice carries something like warmth. 'The Flagon keeps its word. I will drink here, keeper. Openly. That has not happened in ninety years.'"
+					],
+					"fade_label": "Let it fade",
+					"fade_pages": [
+						"You step back from the stone. 'People keep peace,' you tell her, 'not stones. This house will hold it the ordinary way — full mugs, fair prices, and a firm hand on troublemakers.'",
+						"Vess regards you for a long, cold moment. 'Aldous said nearly the same, once, before he chose otherwise. Prove it, then. The stone's coin is yours to keep. The peace is yours to earn.' She leaves a stack of old coins on the table."
+					]
+				}
+			},
+			{
+				"pages": [
+					"'The house feels different now,' Vess says. 'Decisions do that. Even the small ones. Especially the small ones.'",
+					"'Pour for your guests, keeper. I will watch the door. It is what witnesses are for.'"
+				]
+			}
+		]
+	}
+}

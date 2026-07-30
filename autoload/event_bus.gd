@@ -57,6 +57,24 @@ signal brawl_ended(initiator: PatronNPC, target: PatronNPC)
 ## Emitted whenever an NPC says a line out loud (speech bubble shown).
 signal npc_spoke(npc: NPCBase, text: String)
 
+## Emitted when a brawl is resolved peacefully (calming intervention).
+signal brawl_calmed(fighter: PatronNPC)
+
+## Emitted after accumulated furniture damage is paid off.
+signal furniture_repaired
+
+## Emitted after a successful stock purchase.
+signal item_restocked(item_id: StringName)
+
+## Emitted when a story flag is raised for the first time.
+signal story_flag_set(flag: StringName)
+
+## Emitted after the player finishes a conversation with a story character.
+signal story_character_talked(character_id: StringName)
+
+## Emitted when the player activates a story marker in the world.
+signal story_marker_activated(marker_id: StringName)
+
 
 ## Convenience helper so callers do not need to reference the signal directly.
 func post_notification(text: String) -> void:

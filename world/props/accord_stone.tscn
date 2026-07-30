@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://world/props/story_marker.gd" id="1"]
+[ext_resource type="Material" path="res://assets/materials/stone_dark.tres" id="2"]
+
+[sub_resource type="BoxMesh" id="slab"]
+material = ExtResource("2")
+size = Vector3(1.1, 1.4, 0.22)
+
+[sub_resource type="StandardMaterial3D" id="rune_material"]
+albedo_color = Color(0.35, 0.5, 0.6, 1)
+emission_enabled = true
+emission = Color(0.3, 0.55, 0.7, 1)
+emission_energy_multiplier = 0.9
+
+[sub_resource type="BoxShape3D" id="slab_shape"]
+size = Vector3(1.1, 1.4, 0.3)
+
+[node name="AccordStone" type="StaticBody3D"]
+collision_layer = 5
+collision_mask = 0
+script = ExtResource("1")
+marker_id = &"accord_stone"
+found_text = "Behind the barrels, low on the north wall: a slab older than the walls around it, carved with seven joined hands. The Accord Stone is real."
+repeat_text = "Seven hands, one promise. The stone hums faintly under your palm."
+prompt_verb = "Examine"
+display_name = "Ancient Stone"
+
+[node name="Slab" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+mesh = SubResource("slab")
+
+[node name="Runes" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.55, 0, 0, 0, 0.5, 0, 0, 0, 0.3, 0, 0.75, 0.08)
+cast_shadow = 0
+mesh = SubResource("slab")
+material_override = SubResource("rune_material")
+
+[node name="Shape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+shape = SubResource("slab_shape")

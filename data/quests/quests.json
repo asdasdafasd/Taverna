@@ -1,0 +1,243 @@
+{
+	"quests": [
+		{
+			"id": "first_steps",
+			"title": "First Steps Behind the Bar",
+			"act": 1,
+			"description": "The Wandering Flagon is yours now, ink still wet on the deed. Prove the taps still work: see two orders reach two tables.",
+			"objectives": [
+				{"type": "serve_orders", "count": 2, "label": "Have 2 orders delivered to patrons"}
+			],
+			"rewards": {"copper": 20, "flags": ["keeper_serving"]}
+		},
+		{
+			"id": "open_the_books",
+			"title": "Open the Books",
+			"act": 1,
+			"description": "Grandfather Aldous kept his ledger in the counter drawer. Open the Keeper's Ledger and look the numbers in the eye.",
+			"objectives": [
+				{"type": "open_ledger", "count": 1, "label": "Open the Keeper's Ledger (Tab)"}
+			],
+			"rewards": {"copper": 10}
+		},
+		{
+			"id": "stock_the_cellar",
+			"title": "Stock the Cellar",
+			"act": 1,
+			"description": "Empty barrels serve nobody. Order a fresh batch of anything before the taps run dry.",
+			"objectives": [
+				{"type": "restock_any", "count": 1, "label": "Restock any item from the Ledger"}
+			],
+			"rewards": {"copper": 15}
+		},
+		{
+			"id": "word_of_mouth",
+			"title": "Word of Mouth",
+			"act": 1,
+			"description": "A tavern lives on its regulars' tongues. Send three paying guests into the night with coin left on your counter.",
+			"objectives": [
+				{"type": "paid_patrons", "count": 3, "label": "Have 3 patrons settle their tab"}
+			],
+			"rewards": {"all_reputation": 2}
+		},
+		{
+			"id": "meet_the_courier",
+			"title": "The Courier's Satchel",
+			"act": 1,
+			"prereq_quests": ["first_steps"],
+			"description": "A courier named Maren has been asking for the new keeper. She carries something of Aldous's — find her when she stops by.",
+			"objectives": [
+				{"type": "talk_to", "target": "maren", "count": 1, "label": "Talk to Maren the courier"}
+			],
+			"rewards": {"copper": 25, "flags": ["act1_letter"]}
+		},
+		{
+			"id": "house_in_order",
+			"title": "A House in Order",
+			"act": 1,
+			"prereq_quests": ["open_the_books"],
+			"description": "Aldous let the place tire out in his last years. Put real coin into one improvement and make the Flagon yours.",
+			"objectives": [
+				{"type": "buy_upgrade", "count": 1, "label": "Purchase any upgrade"}
+			],
+			"rewards": {"copper": 30}
+		},
+		{
+			"id": "the_old_chill",
+			"title": "The Old Chill",
+			"act": 2,
+			"prereq_flags": ["act1_letter"],
+			"description": "Maren mentioned the pale folk used to drink here in Aldous's day, quiet as snowfall. Keep the door open late and see one arrive.",
+			"objectives": [
+				{"type": "race_visit", "target": "undead", "count": 1, "label": "Have an undead patron visit the tavern"}
+			],
+			"rewards": {"flags": ["chill_witnessed"]}
+		},
+		{
+			"id": "fenwicks_tale",
+			"title": "Fenwick's Tale",
+			"act": 2,
+			"prereq_flags": ["chill_witnessed"],
+			"description": "Old Fenwick drank beside your grandfather for forty years, and dwarves forget nothing they drank to. He knows what sits beneath these boards.",
+			"objectives": [
+				{"type": "talk_to", "target": "fenwick", "count": 1, "label": "Talk to Old Fenwick"}
+			],
+			"rewards": {"flags": ["heard_of_accord"]}
+		},
+		{
+			"id": "beneath_the_boards",
+			"title": "Beneath the Boards",
+			"act": 2,
+			"prereq_flags": ["heard_of_accord"],
+			"description": "Fenwick swears the old truce-hall never burned — it was buried. Search the cellar for the stone he described.",
+			"objectives": [
+				{"type": "examine_marker", "target": "accord_stone", "count": 1, "label": "Find and examine the Accord Stone in the cellar"}
+			],
+			"rewards": {"copper": 20, "flags": ["stone_found"]}
+		},
+		{
+			"id": "letters_from_aldous",
+			"title": "Letters from Aldous",
+			"act": 2,
+			"prereq_flags": ["stone_found"],
+			"description": "Maren held back one last letter — Aldous told her to wait until you'd 'seen the cellar properly.' She'll come by again; be ready.",
+			"objectives": [
+				{"type": "talk_to", "target": "maren", "count": 1, "label": "Receive Aldous's last letter from Maren"}
+			],
+			"rewards": {"flags": ["aldous_truth"]}
+		},
+		{
+			"id": "the_pale_guest",
+			"title": "The Pale Guest",
+			"act": 2,
+			"prereq_flags": ["aldous_truth"],
+			"description": "Aldous's letter names a witness who signed the Accord and never stopped keeping it: Vess. The letter says only — 'she comes when the candles gutter.'",
+			"objectives": [
+				{"type": "talk_to", "target": "vess", "count": 1, "label": "Speak with Vess after dark"}
+			],
+			"rewards": {"flags": ["met_vess"]}
+		},
+		{
+			"id": "dwarven_thirst",
+			"title": "Dwarven Thirst",
+			"act": 2,
+			"prereq_quests": ["word_of_mouth"],
+			"description": "Win the mountain trade: dwarves pay steady and drink deep, but only where the ale never disappoints.",
+			"objectives": [
+				{"type": "reputation_reach", "target": "dwarf", "count": 60, "label": "Reach 60 reputation with dwarves"}
+			],
+			"rewards": {"copper": 40}
+		},
+		{
+			"id": "elven_grace",
+			"title": "Elven Grace",
+			"act": 2,
+			"prereq_quests": ["word_of_mouth"],
+			"description": "Elves tip like lords and judge like magistrates. Earn their regard and the Flagon's name will travel far roads.",
+			"objectives": [
+				{"type": "reputation_reach", "target": "elf", "count": 60, "label": "Reach 60 reputation with elves"}
+			],
+			"rewards": {"copper": 40}
+		},
+		{
+			"id": "green_peace",
+			"title": "A Round of Peace",
+			"act": 2,
+			"prereq_quests": ["first_steps"],
+			"description": "Fists are not the only way to end a fight. Next time tempers snap, stand a round on the house and talk them down (G).",
+			"objectives": [
+				{"type": "calm_brawl", "count": 1, "label": "End a brawl peacefully with a round on the house"}
+			],
+			"rewards": {"all_reputation": 3}
+		},
+		{
+			"id": "iron_hand",
+			"title": "The Iron Hand",
+			"act": 2,
+			"prereq_quests": ["first_steps"],
+			"description": "Sometimes the room only respects a firm grip. See two brawls stopped — by your own shove or the bouncer's shoulders.",
+			"objectives": [
+				{"type": "end_brawls", "count": 2, "label": "See 2 brawls broken up"}
+			],
+			"rewards": {"copper": 30}
+		},
+		{
+			"id": "boiling_point",
+			"title": "Boiling Point",
+			"act": 2,
+			"prereq_quests": ["first_steps"],
+			"description": "Every keeper meets the night the whole room bares its teeth. When tension boils over, bring it all the way back down to calm.",
+			"objectives": [
+				{"type": "tension_recover", "count": 1, "label": "Bring a CRITICAL room back to CALM"}
+			],
+			"rewards": {"copper": 30, "tension_relief": 10}
+		},
+		{
+			"id": "mend_the_hall",
+			"title": "Mend the Hall",
+			"act": 2,
+			"prereq_quests": ["open_the_books"],
+			"description": "Splintered stools tell every guest the same story: this house is losing. Pay off the damage and make the hall whole.",
+			"objectives": [
+				{"type": "repair_furniture", "count": 1, "label": "Pay for furniture repairs in the Ledger"}
+			],
+			"rewards": {"copper": 20}
+		},
+		{
+			"id": "no_blood_tonight",
+			"title": "No Blood Tonight",
+			"act": 2,
+			"prereq_quests": ["green_peace"],
+			"description": "Fenwick's wager: even Aldous never kept a full day without a single fight. Prove the old dwarf wrong — one day, zero brawls.",
+			"objectives": [
+				{"type": "day_survived", "count": 1, "label": "Finish a full day without a single brawl"}
+			],
+			"fail_on": {"type": "brawl_started"},
+			"rewards": {"copper": 50, "all_reputation": 2}
+		},
+		{
+			"id": "rainy_day_fund",
+			"title": "The Rainy Day Fund",
+			"act": 2,
+			"prereq_quests": ["open_the_books"],
+			"description": "Aldous kept five hundred copper behind a loose brick 'for the bad winter.' Build the Flagon's reserve back to that mark.",
+			"objectives": [
+				{"type": "funds_reach", "count": 500, "label": "Hold 500c in the tavern's funds"}
+			],
+			"rewards": {"all_reputation": 2}
+		},
+		{
+			"id": "the_accord_choice",
+			"title": "What the Stone Asks",
+			"act": 3,
+			"prereq_flags": ["met_vess"],
+			"description": "The Accord Stone is failing, and Vess offers you the same choice she once gave Aldous: pour your will into the old truce, or let it fade and keep the coin it costs. She will hear your answer when you next speak.",
+			"objectives": [
+				{"type": "flag_set", "target": "accord_choice_made", "count": 1, "label": "Give Vess your answer"}
+			],
+			"rewards": {"copper": 50}
+		},
+		{
+			"id": "gathering_night",
+			"title": "The Gathering Night",
+			"act": 3,
+			"prereq_flags": ["accord_choice_made"],
+			"description": "Whatever you chose, the Flagon must prove it can hold the peace the old hall promised. Fill the room — five guests seated at once — and keep the air easy while you do.",
+			"objectives": [
+				{"type": "gathering", "count": 5, "label": "Have 5 patrons seated at once while the room stays calm"}
+			],
+			"rewards": {"copper": 100, "all_reputation": 5, "flags": ["story_complete"]}
+		},
+		{
+			"id": "keepers_legacy",
+			"title": "A Keeper's Legacy",
+			"act": 3,
+			"prereq_flags": ["story_complete"],
+			"description": "The hall held. The letters are answered, the stone has its answer, and the road knows the Flagon's name again. All that remains is what Aldous wanted most: a full till and a quiet heart.",
+			"objectives": [
+				{"type": "funds_reach", "count": 1000, "label": "Build the Flagon's funds to 1,000c"}
+			],
+			"rewards": {"copper": 200, "all_reputation": 5}
+		}
+	]
+}

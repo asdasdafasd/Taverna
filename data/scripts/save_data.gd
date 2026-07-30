@@ -7,7 +7,10 @@ extends Resource
 ## [code]read_save_data(data)[/code].
 
 ## Bump when the on-disk format changes incompatibly.
-const CURRENT_VERSION: int = 2
+const CURRENT_VERSION: int = 3
+
+## Oldest version [method from_dict] can still read (newer fields default).
+const MIN_COMPATIBLE_VERSION: int = 2
 
 var version: int = CURRENT_VERSION
 
@@ -50,6 +53,24 @@ var ledger_days: Dictionary[String, Array] = {}
 ## Accumulated unrepaired furniture damage in copper.
 var furniture_damage_copper: int = 0
 
+## Raised story flags.
+var story_flags: Array[String] = []
+
+## StoryManager.AccordChoice value.
+var accord_choice: int = 0
+
+## Quest id -> {"status": int, "progress": [int]}.
+var quest_states: Dictionary[String, Dictionary] = {}
+
+## Event id -> in-game day it last fired.
+var event_history: Dictionary[String, int] = {}
+
+## Tutorial completion (skipped counts as done).
+var tutorial_done: bool = false
+
+## Whether the intro sequence has already played.
+var intro_seen: bool = false
+
 
 func to_dict() -> Dictionary:
 	return {
@@ -69,6 +90,12 @@ func to_dict() -> Dictionary:
 		"menu_prices": menu_prices,
 		"ledger_days": ledger_days,
 		"furniture_damage_copper": furniture_damage_copper,
+		"story_flags": story_flags,
+		"accord_choice": accord_choice,
+		"quest_states": quest_states,
+		"event_history": event_history,
+		"tutorial_done": tutorial_done,
+		"intro_seen": intro_seen,
 	}
 
 
@@ -76,9 +103,9 @@ func to_dict() -> Dictionary:
 ## Returns false when the payload is missing or incompatible.
 func from_dict(source: Dictionary) -> bool:
 	var read_version: int = int(source.get("version", 0))
-	if read_version != CURRENT_VERSION:
+	if read_version < MIN_COMPATIBLE_VERSION or read_version > CURRENT_VERSION:
 		return false
-	version = read_version
+	version = CURRENT_VERSION
 	saved_at = str(source.get("saved_at", ""))
 	play_time_seconds = float(source.get("play_time_seconds", 0.0))
 	day = maxi(1, int(source.get("day", 1)))
@@ -116,4 +143,20 @@ func from_dict(source: Dictionary) -> bool:
 		if pair is Array and (pair as Array).size() == 2:
 			ledger_days[str(day_key)] = pair
 	furniture_damage_copper = maxi(0, int(source.get("furniture_damage_copper", 0)))
+	story_flags.clear()
+	for flag_key: Variant in source.get("story_flags", []):
+		story_flags.append(str(flag_key))
+	accord_choice = int(source.get("accord_choice", 0))
+	quest_states.clear()
+	var quest_source: Dictionary = source.get("quest_states", {})
+	for quest_key: Variant in quest_source:
+		var state: Variant = quest_source[quest_key]
+		if state is Dictionary:
+			quest_states[str(quest_key)] = state
+	event_history.clear()
+	var event_source: Dictionary = source.get("event_history", {})
+	for event_key: Variant in event_source:
+		event_history[str(event_key)] = int(event_source[event_key])
+	tutorial_done = bool(source.get("tutorial_done", false))
+	intro_seen = bool(source.get("intro_seen", false))
 	return true

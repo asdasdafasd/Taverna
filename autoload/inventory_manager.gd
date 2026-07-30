@@ -129,6 +129,7 @@ func try_restock(item_id: StringName) -> bool:
 		return false
 	_stock[item_id] = stock_of(item_id) + RESTOCK_BATCH_UNITS
 	stock_changed.emit(item_id, _stock[item_id])
+	EventBus.item_restocked.emit(item_id)
 	return true
 
 

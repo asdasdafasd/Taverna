@@ -23,6 +23,8 @@ enum Category {
 	UPGRADE,
 	HOSPITALITY,
 	LOSS,
+	QUEST,
+	EVENT,
 }
 
 const CATEGORY_NAMES: Dictionary[Category, String] = {
@@ -35,6 +37,8 @@ const CATEGORY_NAMES: Dictionary[Category, String] = {
 	Category.UPGRADE: "Upgrade",
 	Category.HOSPITALITY: "Hospitality",
 	Category.LOSS: "Losses",
+	Category.QUEST: "Quest reward",
+	Category.EVENT: "Tavern event",
 }
 
 ## Maximum entries kept in the rolling history.

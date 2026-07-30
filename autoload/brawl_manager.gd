@@ -100,6 +100,7 @@ func try_calm_nearest(position: Vector3) -> bool:
 	if randf() > CALM_SUCCESS_CHANCE:
 		return false
 	fighter.calm_down_from_fight()
+	EventBus.brawl_calmed.emit(fighter)
 	return true
 
 
@@ -113,6 +114,7 @@ func try_repair_damage() -> bool:
 		return false
 	damage_owed_copper = 0
 	furniture_damaged.emit(0)
+	EventBus.furniture_repaired.emit()
 	return true
 
 

@@ -34,6 +34,7 @@ var _menu_box: VBoxContainer = null
 var _staff_box: VBoxContainer = null
 var _upgrades_box: VBoxContainer = null
 var _reputation_box: VBoxContainer = null
+var _quests_box: VBoxContainer = null
 var _journal_text: RichTextLabel = null
 var _root: Control = null
 
@@ -70,6 +71,10 @@ func toggle() -> void:
 func open() -> void:
 	if is_open or GameManager.state != GameManager.State.PLAYING:
 		return
+	# A dialogue (or other system) may pause the tree while state stays
+	# PLAYING; never open the ledger on top of that.
+	if get_tree().paused:
+		return
 	GameManager.open_management()
 	is_open = true
 	_root.visible = true
@@ -94,6 +99,7 @@ func refresh() -> void:
 	_refresh_staff()
 	_refresh_upgrades()
 	_refresh_reputation()
+	_refresh_quests()
 	_refresh_journal()
 
 
@@ -146,6 +152,7 @@ func _build_interface() -> void:
 	_staff_box = _add_tab("Staff")
 	_upgrades_box = _add_tab("Upgrades")
 	_reputation_box = _add_tab("Reputation")
+	_quests_box = _add_tab("Quests")
 	_journal_text = _add_journal_tab()
 
 	var hint: Label = Label.new()
@@ -482,6 +489,81 @@ func _refresh_reputation() -> void:
 	_reputation_box.add_child(_muted_label(
 		"High standing brings more visits, better moods, and fatter tips."
 	))
+
+
+func _refresh_quests() -> void:
+	_clear(_quests_box)
+	var act_names: Dictionary[int, String] = {
+		1: "Act I — The Inheritance",
+		2: "Act II — What Sleeps Below",
+		3: "Act III — The Accord",
+	}
+	var current_act: int = StoryManager.act()
+	_quests_box.add_child(_info_row(
+		"Story", "%s    (%d quests completed)" % [
+			act_names[current_act], QuestManager.completed_count(),
+		]
+	))
+	var status_colors: Dictionary[int, Color] = {
+		QuestDefinition.Status.ACTIVE: HEADER_COLOR,
+		QuestDefinition.Status.COMPLETED: GOOD_COLOR,
+		QuestDefinition.Status.FAILED: BAD_COLOR,
+	}
+	var status_names: Dictionary[int, String] = {
+		QuestDefinition.Status.ACTIVE: "ACTIVE",
+		QuestDefinition.Status.COMPLETED: "DONE",
+		QuestDefinition.Status.FAILED: "FAILED",
+	}
+	for act: int in [1, 2, 3]:
+		var act_shown: bool = false
+		for quest: QuestDefinition in QuestManager.all_quests():
+			if quest.act != act:
+				continue
+			if quest.status == QuestDefinition.Status.LOCKED:
+				continue
+			if not act_shown:
+				act_shown = true
+				_quests_box.add_child(_section_label(act_names[act]))
+			var row: VBoxContainer = VBoxContainer.new()
+			row.add_theme_constant_override("separation", 2)
+			var title_row: HBoxContainer = HBoxContainer.new()
+			title_row.add_theme_constant_override("separation", 10)
+			var title_label: Label = Label.new()
+			title_label.text = quest.title
+			title_label.add_theme_color_override(
+				"font_color", status_colors[quest.status]
+			)
+			title_row.add_child(title_label)
+			var status_label: Label = Label.new()
+			status_label.text = status_names[quest.status]
+			status_label.add_theme_font_size_override("font_size", 12)
+			status_label.add_theme_color_override(
+				"font_color", status_colors[quest.status]
+			)
+			title_row.add_child(status_label)
+			row.add_child(title_row)
+			var description_label: Label = Label.new()
+			description_label.text = quest.description
+			description_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			description_label.add_theme_font_size_override("font_size", 13)
+			description_label.add_theme_color_override("font_color", MUTED_COLOR)
+			row.add_child(description_label)
+			if quest.is_active():
+				for objective: QuestObjective in quest.objectives:
+					var objective_label: Label = Label.new()
+					var mark: String = "[x]" if objective.is_done() else "[ ]"
+					objective_label.text = "  %s %s" % [
+						mark, objective.progress_text(),
+					]
+					objective_label.add_theme_font_size_override("font_size", 13)
+					objective_label.add_theme_color_override(
+						"font_color",
+						GOOD_COLOR if objective.is_done() else HEADER_COLOR
+					)
+					row.add_child(objective_label)
+			_quests_box.add_child(row)
+	if _quests_box.get_child_count() <= 1:
+		_quests_box.add_child(_muted_label("No quests discovered yet."))
 
 
 func _refresh_journal() -> void:
