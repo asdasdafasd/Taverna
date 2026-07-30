@@ -36,6 +36,12 @@ func _ready() -> void:
 	TimeManager.hour_passed.connect(_on_hour_passed)
 	StoryManager.flag_raised.connect(_on_flag_raised)
 	EventBus.navigation_ready.connect(_refresh_presence)
+	# Loads can rewind flags without raising them; re-sync presence.
+	EventBus.game_loaded.connect(_on_game_loaded)
+
+
+func _on_game_loaded(_path: String) -> void:
+	_refresh_presence()
 
 
 func _on_hour_passed(_day: int, _hour: int) -> void:

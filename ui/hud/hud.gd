@@ -12,6 +12,9 @@ const TENSION_COLORS: Array[Color] = [
 
 var _notification_tween: Tween = null
 var _focused_interactable: Interactable = null
+## Cached per-level fill styles so tension ticks never allocate.
+var _tension_styles: Array[StyleBoxFlat] = []
+var _tension_level_shown: int = -1
 
 @onready var _crosshair: Control = %Crosshair
 @onready var _prompt_label: Label = %PromptLabel
@@ -19,7 +22,6 @@ var _focused_interactable: Interactable = null
 @onready var _funds_label: Label = %FundsLabel
 @onready var _tension_bar: ProgressBar = %TensionBar
 @onready var _notification_label: Label = %NotificationLabel
-@onready var _pause_overlay: Control = %PauseOverlay
 
 
 func _ready() -> void:
@@ -27,7 +29,6 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_prompt_label.text = ""
 	_notification_label.modulate.a = 0.0
-	_pause_overlay.visible = false
 	_crosshair.modulate = CROSSHAIR_IDLE_COLOR
 	EventBus.interaction_focus_changed.connect(_on_focus_changed)
 	EventBus.interaction_performed.connect(_on_interaction_performed)
@@ -95,9 +96,16 @@ func _on_funds_changed(copper_total: int) -> void:
 
 func _on_tension_changed(tension: float) -> void:
 	_tension_bar.value = tension
-	var fill: StyleBoxFlat = StyleBoxFlat.new()
-	fill.bg_color = TENSION_COLORS[TensionManager.level()]
-	_tension_bar.add_theme_stylebox_override("fill", fill)
+	var level: int = TensionManager.level()
+	if level == _tension_level_shown:
+		return
+	_tension_level_shown = level
+	if _tension_styles.is_empty():
+		for color: Color in TENSION_COLORS:
+			var style: StyleBoxFlat = StyleBoxFlat.new()
+			style.bg_color = color
+			_tension_styles.append(style)
+	_tension_bar.add_theme_stylebox_override("fill", _tension_styles[level])
 
 
 func _on_tension_warning() -> void:
@@ -109,5 +117,4 @@ func _on_tension_critical() -> void:
 
 
 func _on_game_state_changed(new_state: int) -> void:
-	_pause_overlay.visible = new_state == GameManager.State.PAUSED
 	_crosshair.visible = new_state == GameManager.State.PLAYING

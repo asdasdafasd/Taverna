@@ -11,9 +11,9 @@ config_version=5
 [application]
 
 config/name="The Wandering Flagon"
-config/description="A cozy 3D tavern management game. Phase 1: foundation, player controller, tavern interior, interaction framework, and core services."
-config/version="0.1.0"
-run/main_scene="res://game/main/main.tscn"
+config/description="A cozy 3D tavern management game. You inherit The Wandering Flagon, serve seven fantasy races, manage coin and tension, and uncover the truce-hall buried beneath the cellar."
+config/version="1.0.0"
+run/main_scene="res://ui/menu/main_menu.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -21,6 +21,7 @@ config/icon="res://icon.svg"
 
 EventBus="*res://autoload/event_bus.gd"
 SettingsManager="*res://autoload/settings_manager.gd"
+StartupOptions="*res://autoload/startup_options.gd"
 TimeManager="*res://autoload/time_manager.gd"
 SaveManager="*res://autoload/save_manager.gd"
 GameManager="*res://autoload/game_manager.gd"
@@ -33,6 +34,7 @@ BrawlManager="*res://autoload/brawl_manager.gd"
 StoryManager="*res://autoload/story_manager.gd"
 QuestManager="*res://autoload/quest_manager.gd"
 TavernEventsManager="*res://autoload/tavern_events_manager.gd"
+AudioManager="*res://autoload/audio_manager.gd"
 
 [display]
 

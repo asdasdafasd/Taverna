@@ -125,6 +125,8 @@ func sit_at(seat: Seat) -> void:
 	_pre_sit_position = global_position
 	is_sitting = true
 	stop_navigation()
+	# Seated bodies neither move nor need avoidance simulation.
+	_navigation_agent.avoidance_enabled = false
 	global_position = seat.stand_point()
 	rotation.y = seat.sit_yaw()
 	_pose_sitting(true)
@@ -135,6 +137,7 @@ func stand_up() -> void:
 	if not is_sitting:
 		return
 	is_sitting = false
+	_navigation_agent.avoidance_enabled = true
 	_pose_sitting(false)
 	global_position = _pre_sit_position
 

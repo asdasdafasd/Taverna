@@ -75,6 +75,7 @@ func open() -> void:
 	# PLAYING; never open the ledger on top of that.
 	if get_tree().paused:
 		return
+	AudioManager.play_cue(&"ui_click", -8.0)
 	GameManager.open_management()
 	is_open = true
 	_root.visible = true
@@ -579,11 +580,13 @@ func _refresh_journal() -> void:
 
 
 func _on_price_step(item_id: StringName, step: int) -> void:
+	AudioManager.play_cue(&"ui_click", -10.0)
 	InventoryManager.set_price(item_id, InventoryManager.price_of(item_id) + step)
 	_refresh_menu()
 
 
 func _on_restock_pressed(item_id: StringName) -> void:
+	AudioManager.play_cue(&"ui_click", -10.0)
 	if not InventoryManager.try_restock(item_id):
 		EventBus.post_notification("Not enough coin to restock.")
 	_refresh_menu()
@@ -592,6 +595,7 @@ func _on_restock_pressed(item_id: StringName) -> void:
 
 
 func _on_repair_pressed() -> void:
+	AudioManager.play_cue(&"ui_click", -10.0)
 	if not BrawlManager.try_repair_damage():
 		EventBus.post_notification("Not enough coin for repairs.")
 	_refresh_header()
@@ -599,6 +603,7 @@ func _on_repair_pressed() -> void:
 
 
 func _on_upgrade_pressed(upgrade_id: StringName) -> void:
+	AudioManager.play_cue(&"ui_click", -10.0)
 	if UpgradeManager.try_purchase(upgrade_id):
 		_refresh_header()
 		_refresh_upgrades()

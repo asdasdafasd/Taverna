@@ -143,8 +143,12 @@ func write_save_data(data: SaveData) -> void:
 		data.menu_prices[String(item_id)] = _prices[item_id]
 
 
-## SaveManager participant hook.
+## SaveManager participant hook. Restores defaults first so loads (and new
+## games) never inherit stale stock or prices from the running session.
 func read_save_data(data: SaveData) -> void:
+	_stock.clear()
+	_prices.clear()
+	_initialize_catalog()
 	for item_key: String in data.stock:
 		var item_id: StringName = StringName(item_key)
 		_stock[item_id] = maxi(0, int(data.stock[item_key]))

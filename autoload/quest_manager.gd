@@ -89,8 +89,16 @@ func write_save_data(data: SaveData) -> void:
 		}
 
 
-## SaveManager participant hook.
+## SaveManager participant hook. Resets every quest to LOCKED first so
+## loading an older save (or a new game) never keeps stale progress.
 func read_save_data(data: SaveData) -> void:
+	for quest_id: StringName in _quest_order:
+		var quest: QuestDefinition = _quests[quest_id]
+		quest.status = QuestDefinition.Status.LOCKED
+		for objective: QuestObjective in quest.objectives:
+			objective.progress = 0
+	_brawl_free_day = true
+	_was_critical = false
 	for quest_key: String in data.quest_states:
 		var quest: QuestDefinition = _quests.get(StringName(quest_key))
 		if quest == null:
